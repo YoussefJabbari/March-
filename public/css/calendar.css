@@ -25,6 +25,11 @@
 }*/
 
 
+#flag {
+  background-image: url('../images/flag.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 /* SIDEBAR */
 
@@ -156,6 +161,12 @@ main {
 
 .calendar_day_infos {
   text-align: center;
+  
+}
+.calendar_day_infos_down {
+  text-align: center;
+  margin-top: 20%;
+  font-weight: bold;
 }
 
 
