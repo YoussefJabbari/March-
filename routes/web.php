@@ -12,3 +12,10 @@
 */
 
 Route::get('/', 'HomeController@index')->name('Calendar');
+Route::post('/', 'HomeController@lundi')->name('Lundi');
+Route::post('/', 'HomeController@mardi')->name('Mardi');
+Route::post('/', 'HomeController@mercredi')->name('Mercredi');
+Route::post('/', 'HomeController@jeudi')->name('Jeudi');
+Route::post('/', 'HomeController@vendredi')->name('Vendredi');
+Route::post('/', 'HomeController@samedi')->name('Samedi');
+Route::post('/', 'HomeController@dimanche')->name('Dimanche');
