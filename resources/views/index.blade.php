@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Calendar</title>
-    <link rel="stylesheet" type="text/css" href="{{ css/calendar.css }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/calendar.css') }}">
 </head>
 <body>
 <div class="wrapper">

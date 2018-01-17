@@ -17,8 +17,9 @@ class HomeController extends Controller
         else
         {
             $request->session()->put('marche', 0);
+            $request->session()->save();
             //dd($request->session()->all());
         }
-        return view('welcome');
+        return view('index');
     }
 }
