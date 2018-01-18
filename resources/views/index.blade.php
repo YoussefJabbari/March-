@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<?php //Session::put('today',5); ?>
+<?php //Session::put('today',8); ?>
 <div class="wrapper">
     <main>
         <!--<div class="toolbar">
@@ -68,7 +68,7 @@
 
 
                 @if(Session::get('today')==2)
-                   <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi">2
+                   <button type="button" class="launcher btn btn-info" data-toggle="modal" data-target=" #vendredi">2
                       <div class="calendar_day_infos">Aujourd'hui</div>
                   </button>
                 @elseif(Session::get('today')>2)
@@ -259,8 +259,10 @@
                                         @if($fab->id == $vente->fabricant_id)
                                           @if($vente->client == 0)
                                               {{ 'Q:' . $vente->nombre .'unités @'. $fab->nom }}
+                                              <?php $find = true; ?>
                                           @else
                                               {{ 'C:' . $vente->nombre .'unités @'. $fab->nom }}
+                                              <?php $find = true; ?>
                                           @endif
                                           @break
                                         @endif
@@ -314,20 +316,80 @@
                             <tr>
                               <th>F1</th>
                               <td>MP</td>
-                              <td>40</td>
-                              <td>20</td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 2)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 1")
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 2)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 1")
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                             <tr>
-                              <th>F1</th>
+                              <th>F2</th>
                               <td>MP</td>
-                              <td>40</td>
-                              <td>50</td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 2")
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 2)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 2")
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                             <tr>
                               <th>D</th>
                               <td>CH</td>
-                              <td>95</td>
-                              <td>40</td>
+                              <td>
+                                @foreach($Dplans as $p)
+                                    @if($p->semaine == 2)
+                                        @foreach($detaillants as $f)
+                                            @if($f->id == $p->detaillant_id)
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Dplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($detaillants as $f)
+                                            @if($f->id == $p->detaillant_id)
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                           </tbody>
                         </table>
@@ -419,13 +481,16 @@
                     @endforeach
                     @if(!$find)
                           @foreach($ventes as $vente)
+
                               @if($vente->semaine == 3)
                                     @foreach($fabricants as $fab)
                                         @if($fab->id == $vente->fabricant_id)
                                           @if($vente->client == 0)
                                               {{ 'Q:' . $vente->nombre .'unités @'. $fab->nom }}
+                                              <?php $find = true; ?>
                                           @else
                                               {{ 'C:' . $vente->nombre .'unités @'. $fab->nom }}
+                                              <?php $find = true; ?>
                                           @endif
                                           @break
                                         @endif
@@ -474,20 +539,80 @@
                             <tr>
                               <th>F1</th>
                               <td>MP</td>
-                              <td>40</td>
-                              <td>20</td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 3)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 1")
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 3)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 1")
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                             <tr>
-                              <th>F1</th>
+                              <th>F2</th>
                               <td>MP</td>
-                              <td>40</td>
-                              <td>50</td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 3)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 2")
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 3)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 2")
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                             <tr>
                               <th>D</th>
                               <td>CH</td>
-                              <td>95</td>
-                              <td>40</td>
+                              <td>
+                                @foreach($Dplans as $p)
+                                    @if($p->semaine == 3)
+                                        @foreach($detaillants as $f)
+                                            @if($f->id == $p->detaillant_id)
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Dplans as $p)
+                                    @if($p->semaine == 3)
+                                        @foreach($detaillants as $f)
+                                            @if($f->id == $p->detaillant_id)
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                           </tbody>
                         </table>
@@ -585,13 +710,16 @@
                     @endforeach
                     @if(!$find)
                           @foreach($ventes as $vente)
+
                               @if($vente->semaine == 4)
                                     @foreach($fabricants as $fab)
                                         @if($fab->id == $vente->fabricant_id)
                                           @if($vente->client == 0)
                                               {{ 'Q:' . $vente->nombre .'unités @'. $fab->nom }}
+                                              <?php $find = true; ?>
                                           @else
                                               {{ 'C:' . $vente->nombre .'unités @'. $fab->nom }}
+                                              <?php $find = true; ?>
                                           @endif
                                           @break
                                         @endif
@@ -642,20 +770,80 @@
                             <tr>
                               <th>F1</th>
                               <td>MP</td>
-                              <td>40</td>
-                              <td>20</td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 4)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 1")
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 4)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 1")
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                             <tr>
-                              <th>F1</th>
+                              <th>F2</th>
                               <td>MP</td>
-                              <td>40</td>
-                              <td>50</td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 2")
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 4)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 2")
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                             <tr>
                               <th>D</th>
                               <td>CH</td>
-                              <td>95</td>
-                              <td>40</td>
+                              <td>
+                                @foreach($Dplans as $p)
+                                    @if($p->semaine == 4)
+                                        @foreach($detaillants as $f)
+                                            @if($f->id == $p->detaillant_id)
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Dplans as $p)
+                                    @if($p->semaine == 4)
+                                        @foreach($detaillants as $f)
+                                            @if($f->id == $p->detaillant_id)
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                           </tbody>
                         </table>
@@ -736,7 +924,7 @@
                 </button>
                @elseif(Session::get('today') > 28 )
                  <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi" disabled>28<div class="calendar_day_infos">
-                    <?php $find = false; ?>
+                   <?php $find = false; ?>
                     @foreach($achats as $achat)
                         @if($achat->semaine == 5)
                             @foreach($fabricants as $fab)
@@ -750,13 +938,16 @@
                     @endforeach
                     @if(!$find)
                           @foreach($ventes as $vente)
+
                               @if($vente->semaine == 5)
                                     @foreach($fabricants as $fab)
                                         @if($fab->id == $vente->fabricant_id)
                                           @if($vente->client == 0)
                                               {{ 'Q:' . $vente->nombre .'unités @'. $fab->nom }}
+                                              <?php $find = true; ?>
                                           @else
                                               {{ 'C:' . $vente->nombre .'unités @'. $fab->nom }}
+                                              <?php $find = true; ?>
                                           @endif
                                           @break
                                         @endif
@@ -858,7 +1049,7 @@
                     <div class="modal-body">
                         <div class="text-center">
                             <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
-                            <div class="text-center text-warning" id="timer">00:30</div>
+                            <div class="text-center text-warning timer">00:30</div>
                         </div>
                       
                     </div>
@@ -871,7 +1062,7 @@
                             <i class="fa fa-shopping-cart ml-1"></i>
                         </button>
                         
-                        <button type="button" class="btn btn-outline-danger  waves-effect" data-dismiss="modal">Retour</a>
+                        <button type="button" class="btn btn-outline-danger  waves-effect" data-dismiss="modal">Retour</button>
                         </form>
                     </div>
                 </div>
@@ -900,7 +1091,7 @@
                     <div class="modal-body">
                         <div class="text-center">
                             <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
-                            <div class="text-center text-warning" id="timer">00:30</div>
+                            <div class="text-center text-warning timer">00:30</div>
                         </div>
                       
                     </div>
@@ -946,7 +1137,7 @@
                     <!--Body-->
                         <div class="text-center">
                             <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
-                            <div class="text-center text-warning" id="timer">00:30</div>
+                            <div class="text-center text-warning timer">00:30</div>
                         </div>
                         
                                   
@@ -1016,7 +1207,7 @@
                     <div class="modal-body">
                         <div class="text-center">
                             <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
-                            <div class="text-center text-warning" id="timer">00:30</div>
+                            <div class="text-center text-warning timer">00:30</div>
                         </div>
                       
                     </div>
@@ -1058,7 +1249,7 @@
                     <div class="modal-body">
                         <div class="text-center">
                             <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
-                            <div class="text-center text-warning" id="timer">00:30</div>
+                            <div class="text-center text-warning timer">00:30</div>
                         </div>
                       
                     </div>
@@ -1096,7 +1287,7 @@
                     <div class="modal-body">
                         <div class="text-center">
                             <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
-                            <div class="text-center text-warning" id="timer">00:30</div>
+                            <div class="text-center text-warning timer">00:30</div>
 
                             <div class="row" id="next_cards">
                                 
@@ -1127,10 +1318,12 @@
                         <form method="POST" action="{{ route('Jeudi') }}">
                             {{ csrf_field() }}
                             <div id="next_btn"></div>
-                        <button id='v_det' type="button" class="btn btn-primary-modal">vendre chapeaux
-                            <i class="fa fa-bank ml-1"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-warning waves-effect" data-dismiss="modal">Retour</button>
+                        <div id='v_det'>
+                          <button  type="button" class="btn btn-primary-modal">vendre chapeaux
+                              <i class="fa fa-bank ml-1"></i>
+                          </button>
+                          <button type="button" class="btn btn-outline-warning waves-effect" data-dismiss="modal">Retour</button>
+                        </div>
                         </form>
                     </div>
                 </div>
@@ -1161,7 +1354,7 @@
                     <div class="modal-body">
                         <div class="text-center">
                             <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
-                            <div class="text-center text-warning" id="timer">00:30</div>
+                            <div class="text-center text-warning timer">00:30</div>
 
                             <div class="row" >
                                 
@@ -1224,7 +1417,7 @@
                     <!--Body-->
                         <div class="text-center">
                             <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
-                            <div class="text-center text-warning" id="timer">00:30</div>
+                            <div class="text-center text-warning timer">00:30</div>
                         </div>
                                   <div class="row">
 
@@ -1368,7 +1561,7 @@
                         <div class="text-center">
                             <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
                         </div>
-                        <div class="text-center text-warning" id="timer">00:30</div>
+                        <div class="text-center text-warning timer">00:30</div>
                       
                     </div>
 
@@ -1412,7 +1605,7 @@
                         <div class="text-center">
                             <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
                         </div>
-                        <div class="text-center text-warning" id="timer">00:30</div>
+                        <div class="text-center text-warning timer">00:30</div>
 
                         
                       
@@ -1471,33 +1664,17 @@
 
     <!-- TImer -->
     <script>
-    // Set the date we're counting down to
-    var countDownDate = new Date().getTime()+30000;
 
-    // Update the count down every 1 second
-    var x = setInterval(function() {
+        var start = new Date;
+        setInterval(function() {
+            if(parseInt(30 - ((new Date - start) / 1000)) > 0)
+              $('.timer').text('00:'+ parseInt(30 - ((new Date - start) / 1000)) + "");
+            else{
+              $('.timer').text('EXPIRED');
+              window.location = "http://localhost:8000/expired";
+            }
+        }, 1000);
 
-      // Get todays date and time
-      var now = new Date().getTime();
-
-      // Find the distance between now an the count down date
-      var distance = countDownDate - now;
-
-      // Time calculations for days, hours, minutes and seconds
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      // Display the result in the element with id="demo"
-      document.getElementById("timer").innerHTML = "00" + ":" + seconds;
-
-      // If the count down is finished, write some text 
-      if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("timer").innerHTML = "EXPIRED";
-      }
-    }, 1000);
     </script>
 
 
@@ -1550,10 +1727,11 @@
                        $(this).remove();
                        $('#card_det').remove();
                        $('sandwish').remove();
+
                          
 
                         var next_cards='<div class="col-md-2"></div><div class="col-md-4"><div class="card border-info mb-3" ><div class="card-header text-center">Fabricant 1</div><div class="card-body text-info"><p>Encaissez {{ Session::get('credit.f1') }} pièces</p> </div></div></div><div class="col-md-4"><div class="card border-info mb-3"><div class="card-header text-center">Fabricant 2</div><div class="card-body text-info"><p>Encaissez {{ Session::get('credit.f2') }} pièces</p></div></div></div>';
-                        var next_btn = '<button type="submit" class="btn btn-primary-modal">Encaissement d\'argents<i class="fa fa-bank ml-1"></i></button>';
+                        var next_btn = '<button type="submit" class="btn btn-primary-modal">Encaissement d\'argents<i class="fa fa-bank ml-1"></i></button><button type="button" class="btn btn-outline-warning waves-effect" data-dismiss="modal">Retour</button>';
 
 
                         $('#next_cards').html(next_cards);

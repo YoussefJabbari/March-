@@ -454,4 +454,16 @@ class HomeController extends Controller
             $fabricant1->save();
         }
     }
+
+    public function expired(Request $request)
+    {
+
+        if (!($request->session()->get('today') == 30))
+        {
+            $request->session()->put('today', $request->session()->get('today') + 1);
+            $request->session()->save();
+        }
+
+        return redirect()->route('Calendar');
+    }   
 }
