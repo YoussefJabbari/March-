@@ -9,7 +9,6 @@ use App\Marche;
 use App\Plan;
 use App\Vente;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
@@ -26,19 +25,13 @@ class HomeController extends Controller
         else
         {
             $marche = Marche::find($request->session()->get('marche'))->first();
-            $fabricants = $marche->fabricants();
-            $detaillants = $marche->detaillants();
-            $achats = $marche->achats();
-            $ventes = $marche->ventes();
-            $Fplans = $marche->Fplans();
-            $Dplans = $marche->Dplans();
 
-            return view('index')->with(['fabricants' => $fabricants,
-                                            'detaillants' => $detaillants,
-                                            'achats' => $achats,
-                                            'ventes' => $ventes,
-                                            'Fplans' => $Fplans,
-                                            'Dplans' => $Dplans]);
+            return view('index')->with(['fabricants' => $marche->fabricants,
+                                            'detaillants' => $marche->detaillants,
+                                            'achats' => $marche->achats,
+                                            'ventes' => $marche->ventes,
+                                            'Fplans' => $marche->Fplans,
+                                            'Dplans' => $marche->Dplans]);
         }
     }
 
@@ -379,29 +372,29 @@ class HomeController extends Controller
         else
         {
             //Fabricants
-            $fabricant1 = Fabricant::find($request->session()->get('equipe.f1'));
+            $fabricant1 = Fabricant::where('id', $request->session()->get('equipe.f1'))->first();
             $ventesC1 = Vente::where('fabricant_id', $fabricant1->id)
                 ->where('client', 1)
                 ->where('semaine', $request->session()->get('semaine'))->get();
             foreach ($ventesC1 as $venteC1)
             {
                 if ($venteC1->mode == 1)
-                    $fabricant1->capital += ($venteC1->nombre * $venteC1->prix);
+                    $fabricant1->update(['capital' => $fabricant1->capital + ($venteC1->nombre * $venteC1->prix)]);
                 elseif ($venteC1->mode == 4)
-                    $fabricant1->capital += ($venteC1->nombre * $venteC1->prix) / 2;
+                    $fabricant1->update(['capital' => $fabricant1->capital + ($venteC1->nombre * $venteC1->prix) / 2]);
                 $fabricant1->save();
             }
 
-            $fabricant2 = Fabricant::find($request->session()->get('equipe.f2'));
+            $fabricant2 = Fabricant::where('id', $request->session()->get('equipe.f2'))->first();
             $ventesC2 = Vente::where('fabricant_id', $fabricant2->id)
                 ->where('client', 1)
                 ->where('semaine', $request->session()->get('semaine'))->get();
             foreach ($ventesC2 as $venteC2)
             {
                 if ($venteC2->mode == 1)
-                    $fabricant2->capital += ($venteC2->nombre * $venteC2->prix);
+                    $fabricant2->update(['capital' => $fabricant2->capital + ($venteC2->nombre * $venteC2->prix)]);
                 elseif ($venteC2->mode == 4)
-                    $fabricant2->capital += ($venteC2->nombre * $venteC2->prix) / 2;
+                    $fabricant2->update(['capital' => $fabricant2->capital + ($venteC2->nombre * $venteC2->prix) / 2]);
                 $fabricant2->save();
             }
 

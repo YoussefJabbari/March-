@@ -18,7 +18,7 @@ class CreateVentesTable extends Migration
             $table->integer('fabricant_id')->unsigned();
             $table->float('prix');
             $table->integer('nombre');
-            $table->integer('mode');
+            $table->integer('mode')->nullable();
             $table->integer('semaine');
             $table->integer('client')->comment('0 => Qobaati ; 1 => Normal');
 

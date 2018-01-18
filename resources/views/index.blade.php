@@ -475,11 +475,13 @@
 
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <div id="next_btn"></div>
-                        <a id='v_det' type="button" class="btn btn-primary-modal">vendre chapeaux
+                        <form method="POST" action="{{ route('Jeudi') }}">
+                            <div id="next_btn"></div>
+                        <button id='v_det' type="button" class="btn btn-primary-modal">vendre chapeaux
                             <i class="fa fa-bank ml-1"></i>
-                        </a>
-                        <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
+                        </button>
+                        <button type="button" class="btn btn-outline-warning waves-effect" data-dismiss="modal">Retour</button>
+                        </form>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -852,7 +854,7 @@
               //  and pass the event object as the only argument
               var selectedValue = $("option:selected", $select ).val(),
                   v_q = '<div class="form-group"><input class="form-control" id="name" name="nbQ1" type="text" placeholder="Nombre chapeaux chez Fabricant 1" required data-validation-required-message=Please enter your name."><input class="form-control" id="name" name="nbQ2" type="text" placeholder="Nombre chapeaux chez Fabricant 2" required data-validation-required-message=Please enter your name."><p class="help-block text-danger"></p></div>';
-                  v_c ='<div class="form-group"><input class="form-control" id="name" name="nbC1" type="text" placeholder="Nombre chapeaux chez Fabricant 1" required data-validation-required-message=Please enter your name."><input class="form-control" id="name" name="nbC2" type="text" placeholder="Nombre chapeaux chez Fabricant 2" required data-validation-required-message=Please enter your name."><p class="help-block text-danger"></p><button id="de1" name="de1" type="button" class="btn btn-outline-primary">Lancez dé 1</button><span class="help-block text-info" id="valde1"></span><button id="de2" name="de2" type="button" class="btn btn-outline-primary">Lancez dé 2</button><span class="help-block text-info" id="valde2"></span></div>';
+                  v_c ='<div class="form-group"><input class="form-control" id="name" name="nbC1" type="text" placeholder="Nombre chapeaux chez Fabricant 1" required data-validation-required-message=Please enter your name."><input class="form-control" id="name" name="nbC2" type="text" placeholder="Nombre chapeaux chez Fabricant 2" required data-validation-required-message=Please enter your name."><p class="help-block text-danger"></p><button id="de1" type="button" class="btn btn-outline-primary">Lancez dé 1</button><input type="hidden" id="ide1" name="de1"/><span class="help-block text-info" id="valde1"></span><button id="de2" name="de2" type="button" class="btn btn-outline-primary">Lancez dé 2</button><input type="hidden" id="ide2" name="de2"/><span class="help-block text-info" id="valde2"></span></div>';
               //  Send the returned data to the ouput element
               if(selectedValue == 'v_q')
                 $output.html( v_q );
@@ -865,12 +867,14 @@
                 $de1.bind( "click", function ( event ) {
                         var valde1 = parseInt(Math.random()*(5))+1;
                         $valde1.html(valde1);
+                        $('#ide1').val(valde1);
                 });
                 var $de2 = $('#de2');
                 var $valde2 = $('#valde2');
                 $de2.bind( "click", function ( event ) {
                         var valde2 = parseInt(Math.random()*(5))+1;
                         $valde2.html(valde2);
+                        $('#ide2').val(valde2);
                 });
             }
             });
@@ -888,7 +892,7 @@
                        $('sandwish').remove();
                          
                         var next_cards='<div class="col-md-2"></div><div class="col-md-4"><div class="card border-info mb-3" ><div class="card-header text-center">Fabricant 1</div><div class="card-body text-info"><p>Encaissez (ici val) pièces</p> </div></div></div><div class="col-md-4"><div class="card border-info mb-3"><div class="card-header text-center">Fabricant 2</div><div class="card-body text-info"><p>Encaissez (ici val) pièces</p></div></div></div>';
-                        var next_btn = '<a type="button" class="btn btn-primary-modal">Encaissement d\'argents<i class="fa fa-bank ml-1"></i></a>';
+                        var next_btn = '<button type="submit" class="btn btn-primary-modal">Encaissement d\'argents<i class="fa fa-bank ml-1"></i></button>';
 
                         $('#next_cards').html(next_cards);
                         $('#next_btn').html(next_btn);
