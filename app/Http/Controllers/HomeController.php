@@ -76,7 +76,7 @@ class HomeController extends Controller
     public function vendredi(Request $request)
     {
         if ($request->session()->get('today') == 30)
-            $this->jour30($request);
+            $this->reset($request);
         else
         {
             $planF1 = new Plan();
@@ -473,9 +473,12 @@ class HomeController extends Controller
 
         return redirect()->route('Calendar');
     }
-    
-    public function jour30(Request $request)
-    {
 
+    public function reset(Request $request)
+    {
+            $request->session()->flush();
+            $request->session()->save();
+
+            return redirect()->route('Calendar');
     }
 }

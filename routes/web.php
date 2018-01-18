@@ -20,3 +20,4 @@ Route::post('/vendredi', 'HomeController@vendredi')->name('Vendredi');
 Route::post('/samedi', 'HomeController@samedi')->name('Samedi');
 Route::post('/dimanche', 'HomeController@dimanche')->name('Dimanche');
 Route::get('/expired', 'HomeController@expired')->name('expired');
+Route::get('/reset', 'HomeController@reset')->name('reset');
