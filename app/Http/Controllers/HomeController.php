@@ -15,7 +15,9 @@ class HomeController extends Controller
     //
     public function index(Request $request)
     {
-        if ($request->session()->has('marche'))
+
+        
+        if (!$request->session()->has('marche'))
         {
             $request->session()->put('today', 1);
             $request->session()->put('semaine', 1);
