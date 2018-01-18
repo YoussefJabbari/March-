@@ -1125,6 +1125,7 @@
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
                         <form method="POST" action="{{ route('Jeudi') }}">
+                            {{ csrf_field() }}
                             <div id="next_btn"></div>
                         <button id='v_det' type="button" class="btn btn-primary-modal">vendre chapeaux
                             <i class="fa fa-bank ml-1"></i>
