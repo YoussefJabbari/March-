@@ -9,13 +9,14 @@ use App\Marche;
 use App\Plan;
 use App\Vente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
     //
     public function index(Request $request)
     {
-        if ($request->session()->has('marche'))
+        if (!$request->session()->has('marche'))
         {
             $request->session()->put('today', 1);
             $request->session()->put('semaine', 1);
@@ -24,7 +25,7 @@ class HomeController extends Controller
         }
         else
         {
-            $marche = Marche::find($request->session()->get('marche'));
+            $marche = Marche::find($request->session()->get('marche'))->first();
             $fabricants = $marche->fabricants();
             $detaillants = $marche->detaillants();
             $achats = $marche->achats();
@@ -79,7 +80,8 @@ class HomeController extends Controller
         {
             $planF1 = new Plan();
             $planF1->fabricant_id = $request->session()->get('equipe.f1');
-            $planF1->achats = $request->input('achatsF1');
+            $planF1->detaillant_id = null;
+            $planF1->achats = "MP";
             $planF1->depenses = $request->input('depensesF1');
             $planF1->economies = $request->input('economiesF1');
             $planF1->semaine = $request->session()->get('semaine');
@@ -87,7 +89,8 @@ class HomeController extends Controller
 
             $planF2 = new Plan();
             $planF2->fabricant_id = $request->session()->get('equipe.f2');
-            $planF2->achats = $request->input('achatsF2');
+            $planF1->detaillant_id = null;
+            $planF2->achats = "MP";
             $planF2->depenses = $request->input('depensesF2');
             $planF2->economies = $request->input('economiesF2');
             $planF2->semaine = $request->session()->get('semaine');
@@ -95,15 +98,16 @@ class HomeController extends Controller
 
             $planD = new Plan();
             $planD->detaillant_id = $request->session()->get('equipe.d');
-            $planD->achats = $request->input('achatsD');
+            $planF1->fabricant_id = null;
+            $planD->achats = "CH";
             $planD->depenses = $request->input('depensesD');
             $planD->economies = $request->input('economiesD');
             $planD->semaine = $request->session()->get('semaine');
             $planD->save();
 
             //Calcul du capital des détaillants (Jeudi prochain)
-            $detaillant = Detaillant::find($request->session()->get('equipe.d'));
-            $detaillant->capital += ($request->input('prixD') * $request->input('nbD'));
+            $detaillant = Detaillant::find($request->session()->get('equipe.d'))->first();
+            $detaillant->update(['capital'=> $detaillant->capital + ($request->input('prixD') * $request->input('nbD'))]);
             $detaillant->save();
             $request->session()->put('D.prix', $request->input('prixD'));
             $request->session()->put('D.nb', $request->input('nbD'));
@@ -114,6 +118,7 @@ class HomeController extends Controller
             $achat1->fabricant_id = $request->session()->get('equipe.f1');
             $achat1->prix = $request->input('prixF1');
             $achat1->nombre = $request->input('nbF1');
+            $achat1->semaine = $request->session()->get('semaine');
             $achat1->save();
 
             $achat2 = new Achat();
@@ -121,6 +126,7 @@ class HomeController extends Controller
             $achat2->fabricant_id = $request->session()->get('equipe.f2');
             $achat2->prix = $request->input('prixF2');
             $achat2->nombre = $request->input('nbF2');
+            $achat2->semaine = $request->session()->get('semaine');
             $achat2->save();
         }
 
@@ -138,16 +144,16 @@ class HomeController extends Controller
 
     public function samedi(Request $request)
     {
-        $fabricant1 = Fabricant::find($request->session()->get('equipe.f1'));
-        $fabricant1->capital -= 110;
+        $fabricant1 = Fabricant::where('id', $request->session()->get('equipe.f1'))->first();
+        $fabricant1->update(['capital' => $fabricant1->capital - 110]);
         $fabricant1->save();
 
-        $fabricant2 = Fabricant::find($request->session()->get('equipe.f2'));
-        $fabricant2->capital -= 110;
+        $fabricant2 = Fabricant::where('id', $request->session()->get('equipe.f2'))->first();
+        $fabricant2->update(['capital' => $fabricant2->capital - 110]);
         $fabricant2->save();
 
-        $detaillant = Detaillant::find($request->session()->get('equipe.d'));
-        $detaillant->capital -= 110;
+        $detaillant = Detaillant::where('id', $request->session()->get('equipe.d'))->first();
+        $detaillant->update(['capital' => $detaillant->capital - 110]);
         $detaillant->save();
 
         if (!($request->session()->get('today') == 30))
@@ -178,7 +184,7 @@ class HomeController extends Controller
         $detaillant->save();
 
         //Paiement des Clients
-        $venteC1 = Vente::where('$fabricant_id', $fabricant1->id)
+        $venteC1 = Vente::where('fabricant_id', $fabricant1->id)
                         ->where('client', 1)
                         ->where('mode', 2)
                         ->where('semaine', $request->session()->get('semaine'))->first();
@@ -188,7 +194,7 @@ class HomeController extends Controller
             $fabricant1->save();
         }
 
-        $venteC2 = Vente::where('$fabricant_id', $fabricant2->id)
+        $venteC2 = Vente::where('fabricant_id', $fabricant2->id)
                         ->where('client', 1)
                         ->where('mode', 2)
                         ->where('semaine', $request->session()->get('semaine'))->first();
@@ -212,12 +218,12 @@ class HomeController extends Controller
         $request->session()->put('semaine', $request->session()->get('semaine') + 1);
         $request->session()->save();
 
-        $fabricant1 = Fabricant::find($request->session()->get('equipe.f1'));
-        $fabricant1->capital -= 40;
+        $fabricant1 = Fabricant::where('id', $request->session()->get('equipe.f1'))->first();
+        $fabricant1->update(['capital' => $fabricant1->capital - 40]);
         $fabricant1->save();
 
-        $fabricant2 = Fabricant::find($request->session()->get('equipe.f2'));
-        $fabricant2->capital -= 40;
+        $fabricant2 = Fabricant::where('id', $request->session()->get('equipe.f2'))->first();
+        $fabricant2->update(['capital' => $fabricant2->capital - 40]);
         $fabricant2->save();
 
         if (!($request->session()->get('today') == 30))
@@ -233,16 +239,16 @@ class HomeController extends Controller
     {
         if ($request->session()->get('today') == 27)
         {
-            $fabricant1 = Fabricant::find($request->session()->get('equipe.f1'));
-            $fabricant1->capital -= 100;
+            $fabricant1 = Fabricant::where('id', $request->session()->get('equipe.f1'))->first();
+            $fabricant1->update(['capital' => $fabricant1->capital - 100]);
             $fabricant1->save();
 
-            $fabricant2 = Fabricant::find($request->session()->get('equipe.f2'));
-            $fabricant2->capital -= 100;
+            $fabricant2 = Fabricant::where('id', $request->session()->get('equipe.f2'))->first();
+            $fabricant2->update(['capital' => $fabricant2->capital - 100]);
             $fabricant2->save();
 
-            $detaillant = Detaillant::find($request->session()->get('equipe.d'));
-            $detaillant->capital -= 100;
+            $detaillant = Detaillant::where('id', $request->session()->get('equipe.d'))->first();
+            $detaillant->update(['capital' => $detaillant->capital - 100]);
             $detaillant->save();
         }
 
@@ -257,93 +263,98 @@ class HomeController extends Controller
 
     public function mercredi(Request $request)
     {
-        $fabricant1 = Fabricant::find($request->session()->get('equipe.f1'));
-        $fabricant2 = Fabricant::find($request->session()->get('equipe.f2'));
-        $detaillant = Detaillant::find($request->session()->get('equipe.d'));
+        $fabricant1 = Fabricant::where('id', $request->session()->get('equipe.f1'))->first();
+        $fabricant2 = Fabricant::where('id', $request->session()->get('equipe.f2'))->first();
+        $detaillant = Detaillant::where('id', $request->session()->get('equipe.d'))->first();
 
-        //Qobaati
-        $venteQ1 = new Vente();
-        $venteQ1->fabricant_id = $fabricant1->id;
-        $venteQ1->prix = 80;
-        $venteQ1->nombre = $request->input('nbQ1');
-        $venteQ1->semaine = $request->session()->get('semaine');
-        $venteQ1->client = 0;
-        $venteQ1->save();
-        $fabricant1->capital += ($venteQ1->nombre * $venteQ1->prix);
-        $fabricant1->save();
-
-        $venteQ2 = new Vente();
-        $venteQ2->fabricant_id = $fabricant2->id;
-        $venteQ2->prix = 80;
-        $venteQ2->nombre = $request->input('nbQ2');
-        $venteQ2->semaine = $request->session()->get('semaine');
-        $venteQ2->client = 0;
-        $venteQ2->save();
-        $fabricant2->capital += ($venteQ2->nombre * $venteQ2->prix);
-        $fabricant2->save();
-
-        //Détaillants
-        $achat1 = Achat::where('fabricant_id', $fabricant1->id)->where('detaillant_id', $detaillant->id)->first();
-        $achat1->nombre = $request->input('nbA1');
-        $achat1->semaine = $request->session()->get('semaine');
-        $achat1->save();
-        $fabricant1->capital += ($achat1->nombre * $achat1->prix);
-        $fabricant1->save();
-
-        $achat2 = Achat::where('fabricant_id', $fabricant2->id)->where('detaillant_id', $detaillant->id)->first();
-        $achat2->nombre = $request->input('nbA2');
-        $achat2->semaine = $request->session()->get('semaine');
-        $achat2->save();
-        $fabricant2->capital += ($achat2->nombre * $achat2->prix);
-        $fabricant2->save();
-
-        //Clients
-        $venteC1 = new Vente();
-        $venteC1->fabricant_id = $fabricant1->id;
-        $venteC1->prix = 90;
-        $venteC1->nombre = $request->input('nbC1');
-        $venteC1->mode = $request->input('de1');
-        $venteC1->semaine = $request->session()->get('semaine');
-        $venteC1->client = 1;
-        $venteC1->save();
-        if ($venteC1->mode == 1)
+        if ($request->input('mode') == "v_q")
         {
-            $request->session()->put('credit.f1', ($venteC1->nombre * $venteC1->prix));
-            $request->session()->save();
+            //Qobaati
+            $venteQ1 = new Vente();
+            $venteQ1->fabricant_id = $fabricant1->id;
+            $venteQ1->prix = 80;
+            $venteQ1->nombre = $request->input('nbQ1');
+            $venteQ1->semaine = $request->session()->get('semaine');
+            $venteQ1->client = 0;
+            $venteQ1->save();
+            $fabricant1->update(['capital' => $fabricant1->capital + ($venteQ1->nombre * $venteQ1->prix)]);
+            $fabricant1->save();
+
+            $venteQ2 = new Vente();
+            $venteQ2->fabricant_id = $fabricant2->id;
+            $venteQ2->prix = 80;
+            $venteQ2->nombre = $request->input('nbQ2');
+            $venteQ2->semaine = $request->session()->get('semaine');
+            $venteQ2->client = 0;
+            $venteQ2->save();
+            $fabricant2->update(['capital' => $fabricant2->capital + ($venteQ2->nombre * $venteQ2->prix)]);
+            $fabricant2->save();
         }
-        elseif ($venteC1->mode == 4)
+        elseif ($request->input('mode') == "v_n")
         {
-            $request->session()->put('credit.f1', ($venteC1->nombre * $venteC1->prix)/2);
-            $request->session()->save();
-        }
-        else
-        {
-            $request->session()->put('credit.f1', 0);
-            $request->session()->save();
-        }
+            //Détaillants
+            $achat1 = Achat::where('fabricant_id', $fabricant1->id)->where('detaillant_id', $detaillant->id)->first();
+            $achat1->update(['semaine' => $request->session()->get('semaine')]);
+            $achat1->save();
+            $fabricant1->update(['capital' => $fabricant1->capital + ($achat1->nombre * $achat1->prix)]);
+            $fabricant1->save();
 
-        $venteC2 = new Vente();
-        $venteC2->fabricant_id = $fabricant2->id;
-        $venteC2->prix = 90;
-        $venteC2->nombre = $request->input('nbC2');
-        $venteC2->mode = $request->input('de2');
-        $venteC2->semaine = $request->session()->get('semaine');
-        $venteC2->client = 1;
-        $venteC2->save();
-        if ($venteC2->mode == 1)
-        {
-            $request->session()->put('credit.f2', ($venteC2->nombre * $venteC2->prix));
-            $request->session()->save();
+            $achat2 = Achat::where('fabricant_id', $fabricant2->id)->where('detaillant_id', $detaillant->id)->first();
+            $achat2->update(['semaine' => $request->session()->get('semaine')]);
+            $achat2->save();
+            $fabricant2->update(['capital' => $fabricant2->capital + ($achat2->nombre * $achat2->prix)]);
+            $fabricant2->save();
         }
-        elseif ($venteC2->mode == 4)
+        elseif ($request->input('mode') == "v_c")
         {
-            $request->session()->put('credit.f2', ($venteC2->nombre * $venteC2->prix)/2);
-            $request->session()->save();
-        }
-        else
-        {
-            $request->session()->put('credit.f2', 0);
-            $request->session()->save();
+            //Crédit
+            $venteC1 = new Vente();
+            $venteC1->fabricant_id = $fabricant1->id;
+            $venteC1->prix = 90;
+            $venteC1->nombre = $request->input('nbC1');
+            $venteC1->mode = $request->input('de1');
+            $venteC1->semaine = $request->session()->get('semaine');
+            $venteC1->client = 1;
+            $venteC1->save();
+            if ($venteC1->mode == 1)
+            {
+                $request->session()->put('credit.f1', ($venteC1->nombre * $venteC1->prix));
+                $request->session()->save();
+            }
+            elseif ($venteC1->mode == 4)
+            {
+                $request->session()->put('credit.f1', ($venteC1->nombre * $venteC1->prix)/2);
+                $request->session()->save();
+            }
+            else
+            {
+                $request->session()->put('credit.f1', 0);
+                $request->session()->save();
+            }
+
+            $venteC2 = new Vente();
+            $venteC2->fabricant_id = $fabricant2->id;
+            $venteC2->prix = 90;
+            $venteC2->nombre = $request->input('nbC2');
+            $venteC2->mode = $request->input('de2');
+            $venteC2->semaine = $request->session()->get('semaine');
+            $venteC2->client = 1;
+            $venteC2->save();
+            if ($venteC2->mode == 1)
+            {
+                $request->session()->put('credit.f2', ($venteC2->nombre * $venteC2->prix));
+                $request->session()->save();
+            }
+            elseif ($venteC2->mode == 4)
+            {
+                $request->session()->put('credit.f2', ($venteC2->nombre * $venteC2->prix)/2);
+                $request->session()->save();
+            }
+            else
+            {
+                $request->session()->put('credit.f2', 0);
+                $request->session()->save();
+            }
         }
 
         if (!($request->session()->get('today') == 30))
@@ -369,7 +380,7 @@ class HomeController extends Controller
         {
             //Fabricants
             $fabricant1 = Fabricant::find($request->session()->get('equipe.f1'));
-            $ventesC1 = Vente::where('$fabricant_id', $fabricant1->id)
+            $ventesC1 = Vente::where('fabricant_id', $fabricant1->id)
                 ->where('client', 1)
                 ->where('semaine', $request->session()->get('semaine'))->get();
             foreach ($ventesC1 as $venteC1)
@@ -382,7 +393,7 @@ class HomeController extends Controller
             }
 
             $fabricant2 = Fabricant::find($request->session()->get('equipe.f2'));
-            $ventesC2 = Vente::where('$fabricant_id', $fabricant2->id)
+            $ventesC2 = Vente::where('fabricant_id', $fabricant2->id)
                 ->where('client', 1)
                 ->where('semaine', $request->session()->get('semaine'))->get();
             foreach ($ventesC2 as $venteC2)
@@ -427,7 +438,7 @@ class HomeController extends Controller
         //Remboursement de la fin du mois
 
         $fabricant1 = Fabricant::find($request->session()->get('equipe.f1'));
-        $ventesC1 = Vente::where('$fabricant_id', $fabricant1->id)
+        $ventesC1 = Vente::where('fabricant_id', $fabricant1->id)
             ->where('client', 1)
             ->where('mode', 3)->get();
         foreach ($ventesC1 as $venteC1)
@@ -437,7 +448,7 @@ class HomeController extends Controller
         }
 
         $fabricant2 = Fabricant::find($request->session()->get('equipe.f2'));
-        $ventesC2 = Vente::where('$fabricant_id', $fabricant2->id)
+        $ventesC2 = Vente::where('fabricant_id', $fabricant2->id)
             ->where('client', 1)
             ->where('mode', 3)->get();
         foreach ($ventesC2 as $venteC2)

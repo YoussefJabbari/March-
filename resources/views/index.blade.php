@@ -219,9 +219,12 @@
 
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <a type="button" class="btn btn-primary-modal">Acheter matière première chez Hanouty
+                        <form method="POST" action="{{ route('Lundi') }}">
+                            {{ csrf_field() }}
+                        <button type="submit" class="btn btn-primary-modal">Acheter matière première chez Hanouty
                             <i class="fa fa-shopping-cart ml-1"></i>
-                        </a>
+                        </button>
+                        </form>
                         <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                 </div>
@@ -257,9 +260,12 @@
 
                     <!--Footer-->
                     <div class="modal-footer justify-content-center" >
-                        <a type="button" style="background-color: rgb(200,200,0);" class="btn btn-primary-modal" >Fabriquez les chapeaux
+                        <form method="POST" action="{{ route('Mardi') }}">
+                            {{ csrf_field() }}
+                        <button type="submit" style="background-color: rgb(200,200,0);" class="btn btn-primary-modal" >Fabriquez les chapeaux
                             <i class="fa fa-gears ml-1"></i>
-                        </a>
+                        </button>
+                        </form>
                         <a type="button" class="btn btn-outline-warning-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                 </div>
@@ -276,7 +282,8 @@
             <!--Content-->
             <div class="modal-content">
 
-                <form id="contactForm" name="sentMessage" novalidate>
+                <form id="contactForm" name="sentMessage" novalidate method="POST" action="{{ route('Mercredi') }}">
+                    {{ csrf_field() }}
                 <!--Header-->
                 <div class="modal-header" style="background-color: rgb(45,152,96);" >
                     <p class="heading lead">Vendez chapeaux</p>
@@ -305,7 +312,7 @@
                                             <div class="card-body text-success">
 
                                             <div class="form-group" id="mode_vente">
-                                                <select class="selectpicker form-control">
+                                                <select name="mode" class="selectpicker form-control">
                                                   <option id="v_q" value="v_q">vente à la boutique Qobaati</option>
                                                   <option id="v_n" value="v_n">vente Négociation avec les détaillants</option>
                                                   <option id="v_c" value="v_c">Vente à crédit</option>
@@ -368,9 +375,12 @@
 
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <a type="button" class="btn btn-primary-modal">Empruntez 200 de la banque
-                            <i class="fa fa-bank ml-1"></i>
-                        </a>
+                        <form method="POST" action="{{ route('Jeudi') }}">
+                            {{ csrf_field() }}
+                            <button type="submit" class="btn btn-primary-modal">Empruntez 200 de la banque
+                                <i class="fa fa-bank ml-1"></i>
+                            </button>
+                        </form>
                         <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                 </div>
@@ -546,7 +556,8 @@
             <!--Content-->
             <div class="modal-content">
 
-                <form id="contactForm" name="sentMessage" novalidate>
+                <form id="contactForm" name="sentMessage" novalidate method="POST" action="{{ route('Vendredi') }}">
+                {{ csrf_field() }}
                 <!--Header-->
                 <div class="modal-header">
                     <p class="heading lead">Planifiez</p>
@@ -563,8 +574,6 @@
                             <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
                             <div class="text-center text-warning" id="timer">00:30</div>
                         </div>
-                        
-                                  
                                   <div class="row">
 
                                       <div class="col-md-4">
@@ -573,21 +582,21 @@
                                             <div class="card-header text-center">Fabricant 1</div>
                                             <div class="card-body text-info">
                                               <div class="form-group">
-                                                <input class="form-control" id="name" type="text" value="Matière première" required data-validation-required-message="Veuillez saisir MP." disabled>
+                                                    <input class="form-control" id="name" name="achatsF1" type="text" value="Matière première" required data-validation-required-message="Veuillez saisir MP." disabled>
                                                 <p class="help-block text-danger"></p>
                                               </div>
                                               <div class="form-row">
                                                   <div class="col">
-                                                    <input class="form-control" id="email" type="text" placeholder="Dépense *" value="40" required data-validation-required-message="Veuillez saisir la Dépense">
+                                                    <input class="form-control" id="email" name="depensesF1" type="text" placeholder="Dépense *" value="40" required data-validation-required-message="Veuillez saisir la Dépense">
                                                     <p class="help-block text-danger"></p>
                                                   </div>
                                                   <div class="col">
-                                                    <input class="form-control" id="phone" type="text" placeholder="Economie *" required data-validation-required-message="Veuillez saisir l'économie">
+                                                    <input class="form-control" id="phone" name="economiesF1" type="text" placeholder="Economie *" required data-validation-required-message="Veuillez saisir l'économie">
                                                     <p class="help-block text-danger"></p>
                                                   </div>
                                               </div>
                                               <div class="form-group">
-                                                <input class="form-control" id="phone" type="text" placeholder="Prix négociation *" required data-validation-required-message="Please enter your phone number.">
+                                                <input class="form-control" id="phone" name="prixF1" type="text" placeholder="Prix négociation *" required data-validation-required-message="Please enter your phone number.">
                                                 <p class="help-block text-danger"></p>
                                               </div>
                                           </div>
@@ -601,21 +610,21 @@
                                             <div class="card-header text-center">Fabricant 2</div>
                                            <div class="card-body text-info">
                                               <div class="form-group">
-                                                <input class="form-control" id="name" type="text" value="Matière première" required data-validation-required-message="Please enter your name." disabled>
+                                                <input class="form-control" id="name" name="achatsF2" type="text" value="Matière première" required data-validation-required-message="Please enter your name." disabled>
                                                 <p class="help-block text-danger"></p>
                                               </div>
                                                <div class="form-row">
                                                   <div class="col">
-                                                    <input class="form-control" id="email" type="text" placeholder="Dépense *" value="40" required data-validation-required-message="Veuillez saisir la Dépense">
+                                                    <input class="form-control" id="email" name="depensesF2" type="text" placeholder="Dépense *" value="40" required data-validation-required-message="Veuillez saisir la Dépense">
                                                     <p class="help-block text-danger"></p>
                                                   </div>
                                                   <div class="col">
-                                                    <input class="form-control" id="phone" type="text" placeholder="Economie *" required data-validation-required-message="Veuillez saisir l'économie">
+                                                    <input class="form-control" id="phone" name="economiesF2" type="text" placeholder="Economie *" required data-validation-required-message="Veuillez saisir l'économie">
                                                     <p class="help-block text-danger"></p>
                                                   </div>
                                               </div>
                                               <div class="form-group">
-                                                <input class="form-control" id="phone" type="text" placeholder="Prix négociation *" required data-validation-required-message="Please enter your phone number.">
+                                                <input class="form-control" id="phone" name="prixF2" type="text" placeholder="Prix négociation *" required data-validation-required-message="Please enter your phone number.">
                                                 <p class="help-block text-danger"></p>
                                               </div>
                                           </div>
@@ -631,32 +640,32 @@
                                             <div class="card-body text-info">
                                             <div class="form-row">
                                                 <div class="col">
-                                                <input class="form-control" id="name" type="text" placeholder="Achat chez Détaillant 1*" required data-validation-required-message="Please enter your name.">
+                                                <input class="form-control" id="name" name="nbF1" type="text" placeholder="Achat chez Détaillant 1*" required data-validation-required-message="Please enter your name.">
                                                 <p class="help-block text-danger"></p>
                                               </div>
                                               <div class="col">
-                                                <input class="form-control" id="email" type="text" placeholder="Achat chez Détaillant 2*" required data-validation-required-message="Please enter your email address.">
+                                                <input class="form-control" id="email" name="nbF2" type="text" placeholder="Achat chez Détaillant 2*" required data-validation-required-message="Please enter your email address.">
                                                 <p class="help-block text-danger"></p>
                                               </div>
                                             </div>
                                               
                                               <div class="form-row">
                                               <div class="col">
-                                                    <input class="form-control" id="phone" type="text" placeholder="Dépense *" required data-validation-required-message="Please enter your phone number.">
+                                                    <input class="form-control" id="phone" name="depensesD" type="text" placeholder="Dépense *" required data-validation-required-message="Please enter your phone number.">
                                                     <p class="help-block text-danger"></p>
                                                   </div>
                                                   <div class="col">
-                                                    <input class="form-control" id="phone" type="text" placeholder="Economie *" required data-validation-required-message="Please enter your phone number.">
+                                                    <input class="form-control" id="phone" name="economiesD" type="text" placeholder="Economie *" required data-validation-required-message="Please enter your phone number.">
                                                     <p class="help-block text-danger"></p>
                                                   </div>
                                               </div>
                                               <div class="form-row">
                                                 <div class="col">
-                                                    <input class="form-control" id="phone" type="text" placeholder="prix vente *" required data-validation-required-message="Please enter your phone number.">
+                                                    <input class="form-control" id="phone" name="prixD" type="text" placeholder="prix vente *" required data-validation-required-message="Please enter your phone number.">
                                                     <p class="help-block text-danger"></p>
                                                   </div>
                                                     <div class="col">
-                                                    <input class="form-control" id="phone" type="text" placeholder="nombre a vendre*" required data-validation-required-message="Please enter your phone number.">
+                                                    <input class="form-control" id="phone" name="nbD" type="text" placeholder="nombre a vendre*" required data-validation-required-message="Please enter your phone number.">
                                                     <p class="help-block text-danger"></p>
                                                   </div>
                                               </div>
@@ -713,9 +722,12 @@
 
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <a type="button" class="btn btn-primary-modal">Retrirez salaire des employés
+                        <form method="POST" action="{{ route('Samedi') }}">
+                            {{ csrf_field() }}
+                        <button type="submit" class="btn btn-primary-modal">Retrirez salaire des employés
                             <i class="fa fa-money ml-1"></i>
-                        </a>
+                        </button>
+                        </form>
                         <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                 </div>
@@ -771,6 +783,7 @@
                             <i class="fa fa-bank ml-1"></i>
                         </a>
                         <a type="button" class="btn btn-secondary btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
+                    </div>
                     </div>
                     </form>
                 </div>
@@ -838,8 +851,8 @@
             $select.bind( "change click", function ( event ) {
               //  and pass the event object as the only argument
               var selectedValue = $("option:selected", $select ).val(),
-                  v_q = '<div class="form-group"><input class="form-control" id="name" type="text" placeholder="Nombre chapeaux chez Fabricant 1" required data-validation-required-message=Please enter your name."><input class="form-control" id="name" type="text" placeholder="Nombre chapeaux chez Fabricant 2" required data-validation-required-message=Please enter your name."><p class="help-block text-danger"></p></div>';
-                  v_c='<div class="form-group"><input class="form-control" id="name" type="text" placeholder="Nombre chapeaux chez Fabricant 1" required data-validation-required-message=Please enter your name."><input class="form-control" id="name" type="text" placeholder="Nombre chapeaux chez Fabricant 2" required data-validation-required-message=Please enter your name."><p class="help-block text-danger"></p><button id="de1" type="button" class="btn btn-outline-primary">Lancez dé 1</button><span class="help-block text-info" id="valde1"></span><button id="de2" type="button" class="btn btn-outline-primary">Lancez dé 2</button><span class="help-block text-info" id="valde2"></span></div>';
+                  v_q = '<div class="form-group"><input class="form-control" id="name" name="nbQ1" type="text" placeholder="Nombre chapeaux chez Fabricant 1" required data-validation-required-message=Please enter your name."><input class="form-control" id="name" name="nbQ2" type="text" placeholder="Nombre chapeaux chez Fabricant 2" required data-validation-required-message=Please enter your name."><p class="help-block text-danger"></p></div>';
+                  v_c ='<div class="form-group"><input class="form-control" id="name" name="nbC1" type="text" placeholder="Nombre chapeaux chez Fabricant 1" required data-validation-required-message=Please enter your name."><input class="form-control" id="name" name="nbC2" type="text" placeholder="Nombre chapeaux chez Fabricant 2" required data-validation-required-message=Please enter your name."><p class="help-block text-danger"></p><button id="de1" name="de1" type="button" class="btn btn-outline-primary">Lancez dé 1</button><span class="help-block text-info" id="valde1"></span><button id="de2" name="de2" type="button" class="btn btn-outline-primary">Lancez dé 2</button><span class="help-block text-info" id="valde2"></span></div>';
               //  Send the returned data to the ouput element
               if(selectedValue == 'v_q')
                 $output.html( v_q );
