@@ -976,11 +976,21 @@
                @endif
 
 
-                
 
 
 
-                <div class="calendar__day day">30</div>
+
+                    @if(Session::get('today') == 30)
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #le30">30
+                            <div class="calendar_day_infos">Aujourd'hui</div>
+                        </button>
+                    @elseif(Session::get('today') < 30)
+                        <button type="button" class="btn btn-light" data-toggle="modal" data-target="" disabled>30
+                            <div class="calendar_day_infos"></div>
+                        </button>
+                    @endif
+
+
                 <div class="calendar__day day"></div>
                 <div class="calendar__day day"></div>
             </div>
@@ -1061,6 +1071,7 @@
                         <button type="submit" class="btn btn-primary-modal">Acheter matière première chez Hanouty
                             <i class="fa fa-shopping-cart ml-1"></i>
                         </button>
+
                         
                         <button type="button" class="btn btn-outline-danger  waves-effect" data-dismiss="modal">Retour</button>
                         </form>
@@ -1220,7 +1231,7 @@
                                 <i class="fa fa-bank ml-1"></i>
                             </button>
                         
-                        <button type="" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</button>
+                        <button class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</button>
                         </form>
                     </div>
                 </div>
@@ -1256,10 +1267,13 @@
 
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <a type="button" class="btn btn-primary-modal">Remboursez la banque 250 pièces
+                        <form method="POST" action="{{ route('Jeudi') }}">
+                            {{ csrf_field() }}
+                        <button type="submit" class="btn btn-primary-modal">Remboursez la banque 250 pièces
                             <i class="fa fa-bank ml-1"></i>
-                        </a>
-                        <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
+                        </button>
+                        <button class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</button>
+                        </form>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -1382,11 +1396,14 @@
 
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
+                        <form method="POST" action="{{ route('Mardi') }}">
+                            {{ csrf_field() }}
                         <div id="next_btn"></div>
-                        <a id='v_det' type="button" style="background-color: rgb(235,235,0);" class="btn btn-primary-modal">Payez loyez
+                        <button id='v_det' type="submit" style="background-color: rgb(235,235,0);" class="btn btn-primary-modal">Payez loyez
                             <i class="fa fa-bank ml-1"></i>
-                        </a>
-                        <a type="button" class="btn text-warning waves-effect" data-dismiss="modal">Retour</a>
+                        </button>
+                        <button class="btn text-warning waves-effect" data-dismiss="modal">Retour</button>
+                        </form>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -1589,7 +1606,8 @@
             <div class="modal-dialog modal-full-height modal-top modal-notify " role="document">
                 <!--Content-->
                 <div class="modal-content">
-                    <form id="contactForm" name="sentMessage" novalidate>
+                    <form id="contactForm" name="sentMessage" novalidate method="POST" action="{{ route('Dimanche') }}">
+                        {{ csrf_field() }}
                     <!--Header-->
                     <div class="modal-header" style="background-color: rgb(128,0,128);">
                         <p class="heading lead">Economisez</p>
@@ -1599,7 +1617,6 @@
                         </button>
                     </div>
 
-
                     <!--Body-->
                     <div class="modal-body">
                         <div class="text-center">
@@ -1607,36 +1624,11 @@
                         </div>
                         <div class="text-center text-warning timer">00:30</div>
 
-                        
-                      
-
-
-                      <div class="row">
-                                        <div class="col-md-4"></div>
-                                        <div class="col-md-4">
-                                              <div class="form-group">
-                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez fabricants 1" required data-validation-required-message="Please enter your name.">
-                                                <p class="help-block text-danger"></p>
-                                              </div>
-                                              <div class="form-group">
-                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez fabricants 2" required data-validation-required-message="Please enter your name.">
-                                                <p class="help-block text-danger"></p>
-                                              </div>
-                                              <div class="form-group">
-                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez Détaillant" required data-validation-required-message="Please enter your name.">
-                                                <p class="help-block text-danger"></p>
-                                              </div>
-                                              
-                                        </div>
-                                          
-
-                    </div>
-
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <a type="button" style="background-color: rgb(128,0,128);" class="btn btn-primary-modal">Epargnez à la banque
+                        <button type="submit" style="background-color: rgb(128,0,128);" class="btn btn-primary-modal">Epargnez à la banque
                             <i class="fa fa-bank ml-1"></i>
-                        </a>
+                        </button>
                         <a type="button" class="btn btn-secondary btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                     </div>
@@ -1645,6 +1637,152 @@
                 <!--/.Content-->
             </div>
         </div>
+<!-- Modal -->
+
+<!--  Modal fin mois-->
+<div class="modal fade top" id="le30" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="false">
+    <div class="modal-dialog modal-full-height modal-top modal-notify modal-info" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <form id="contactForm" name="sentMessage" novalidate method="POST" action="{{ route('Vendredi') }}">
+            {{ csrf_field() }}
+            <!--Header-->
+                <div class="modal-header">
+                    <p class="heading lead">Fin du mois</p>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <!--Body-->
+                    <div class="text-center">
+                        <i class="fa fa-hourglass-start fa-4x mb-3 animated rotateIn"></i>
+                        <div class="text-center text-warning" id="timer">00:30</div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-4">
+
+                            <div class="card border-info mb-3" >
+                                <div class="card-header text-center">Fabricant 1</div>
+                                <div class="card-body text-info">
+                                    <div class="form-group">
+                                        <input class="form-control" id="name" name="achatsF1" type="text" value="Matière première" required data-validation-required-message="Veuillez saisir MP." disabled>
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <input class="form-control" id="email" name="depensesF1" type="text" placeholder="Dépense *" value="40" required data-validation-required-message="Veuillez saisir la Dépense">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                        <div class="col">
+                                            <input class="form-control" id="phone" name="economiesF1" type="text" placeholder="Economie *" required data-validation-required-message="Veuillez saisir l'économie">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" id="phone" name="prixF1" type="text" placeholder="Prix négociation *" required data-validation-required-message="Please enter your phone number.">
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="card border-info mb-3">
+                                <div class="card-header text-center">Fabricant 2</div>
+                                <div class="card-body text-info">
+                                    <div class="form-group">
+                                        <input class="form-control" id="name" name="achatsF2" type="text" value="Matière première" required data-validation-required-message="Please enter your name." disabled>
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <input class="form-control" id="email" name="depensesF2" type="text" placeholder="Dépense *" value="40" required data-validation-required-message="Veuillez saisir la Dépense">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                        <div class="col">
+                                            <input class="form-control" id="phone" name="economiesF2" type="text" placeholder="Economie *" required data-validation-required-message="Veuillez saisir l'économie">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" id="phone" name="prixF2" type="text" placeholder="Prix négociation *" required data-validation-required-message="Please enter your phone number.">
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <div class="card border-info mb-3">
+                                <div class="card-header text-center">Détaillant</div>
+                                <div class="card-body text-info">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <input class="form-control" id="name" name="nbF1" type="text" placeholder="Achat chez Détaillant 1*" required data-validation-required-message="Please enter your name.">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                        <div class="col">
+                                            <input class="form-control" id="email" name="nbF2" type="text" placeholder="Achat chez Détaillant 2*" required data-validation-required-message="Please enter your email address.">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <input class="form-control" id="phone" name="depensesD" type="text" placeholder="Dépense *" required data-validation-required-message="Please enter your phone number.">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                        <div class="col">
+                                            <input class="form-control" id="phone" name="economiesD" type="text" placeholder="Economie *" required data-validation-required-message="Please enter your phone number.">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <input class="form-control" id="phone" name="prixD" type="text" placeholder="prix vente *" required data-validation-required-message="Please enter your phone number.">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                        <div class="col">
+                                            <input class="form-control" id="phone" name="nbD" type="text" placeholder="nombre a vendre*" required data-validation-required-message="Please enter your phone number.">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer justify-content-center">
+                    <button id="sendMessageButton" class="btn btn-primary-modal" type="submit">Sauvegarder planification
+                        <i class="fa fa-pencil-square-o ml-1"></i>
+                    </button>
+                    <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
 <!-- Modal -->
 
 
