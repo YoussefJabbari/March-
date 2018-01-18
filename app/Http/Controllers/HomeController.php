@@ -70,6 +70,10 @@ class HomeController extends Controller
         $request->session()->put('credit.f2', 0);
         $request->session()->put('D.totalU', 0);
         $request->session()->put('D.totalA', 0);
+        $request->session()->put('F1.totalU', 0);
+        $request->session()->put('F1.totalA', 0);
+        $request->session()->put('F2.totalU', 0);
+        $request->session()->put('F2.totalA', 0);
         $request->session()->save();
     }
 
@@ -196,6 +200,9 @@ class HomeController extends Controller
         {
             $fabricant1->update(['capital' => $fabricant1->capital + (($venteC1->nombre * $venteC1->prix) / 2)]);
             $fabricant1->save();
+            $request->session()->put('F1.totalU', $request->session()->get('F1.totalU') + $venteC1->nombre);
+            $request->session()->put('F1.totalA', $request->session()->get('F1.totalA') + ($venteC1->nombre * $venteC1->prix));
+            $request->session()->save();
         }
 
         $venteC2 = Vente::where('fabricant_id', $fabricant2->id)
@@ -206,6 +213,9 @@ class HomeController extends Controller
         {
             $fabricant2->update(['capital' => $fabricant2->capital + (($venteC2->nombre * $venteC2->prix) / 2)]);
             $fabricant2->save();
+            $request->session()->put('F2.totalU', $request->session()->get('F2.totalU') + $venteC2->nombre);
+            $request->session()->put('F2.totalA', $request->session()->get('F2.totalA') + ($venteC2->nombre * $venteC2->prix));
+            $request->session()->save();
         }
 
         if (!($request->session()->get('today') == 30))
@@ -284,6 +294,10 @@ class HomeController extends Controller
             $fabricant1->update(['capital' => $fabricant1->capital + ($venteQ1->nombre * $venteQ1->prix)]);
             $fabricant1->save();
 
+            $request->session()->put('F1.totalU', $request->session()->get('F1.totalU') + $request->input('nbQ1'));
+            $request->session()->put('F1.totalA', $request->session()->get('F1.totalA') + ($request->input('nbQ1') * 80));
+            $request->session()->save();
+
             $venteQ2 = new Vente();
             $venteQ2->fabricant_id = $fabricant2->id;
             $venteQ2->prix = 80;
@@ -293,6 +307,10 @@ class HomeController extends Controller
             $venteQ2->save();
             $fabricant2->update(['capital' => $fabricant2->capital + ($venteQ2->nombre * $venteQ2->prix)]);
             $fabricant2->save();
+
+            $request->session()->put('F2.totalU', $request->session()->get('F2.totalU') + $request->input('nbQ2'));
+            $request->session()->put('F2.totalA', $request->session()->get('F2.totalA') + ($request->input('nbQ2') * 80));
+            $request->session()->save();
         }
         elseif ($request->input('mode') == "v_n")
         {
@@ -305,6 +323,10 @@ class HomeController extends Controller
             $fabricant1->update(['capital' => $fabricant1->capital + ($achat1->nombre * $achat1->prix)]);
             $fabricant1->save();
 
+            $request->session()->put('F1.totalU', $request->session()->get('F1.totalU') + $achat1->nombre);
+            $request->session()->put('F1.totalA', $request->session()->get('F1.totalA') + ($achat1->nombre * $achat1->prix));
+            $request->session()->save();
+
             $achat2 = Achat::where('fabricant_id', $fabricant2->id)
                             ->where('detaillant_id', $detaillant->id)
                             ->where('semaine', null)->first();
@@ -312,6 +334,10 @@ class HomeController extends Controller
             $achat2->save();
             $fabricant2->update(['capital' => $fabricant2->capital + ($achat2->nombre * $achat2->prix)]);
             $fabricant2->save();
+
+            $request->session()->put('F2.totalU', $request->session()->get('F2.totalU') + $achat2->nombre);
+            $request->session()->put('F2.totalA', $request->session()->get('F2.totalA') + ($achat2->nombre * $achat2->prix));
+            $request->session()->save();
         }
         elseif ($request->input('mode') == "v_c")
         {
@@ -324,14 +350,19 @@ class HomeController extends Controller
             $venteC1->semaine = $request->session()->get('semaine');
             $venteC1->client = 1;
             $venteC1->save();
+
+            $request->session()->put('F1.totalU', $request->session()->get('F1.totalU') + $venteC1->nombre);
+            $request->session()->save();
             if ($venteC1->mode == 1)
             {
                 $request->session()->put('credit.f1', ($venteC1->nombre * $venteC1->prix));
+                $request->session()->put('F1.totalA', $request->session()->get('F1.totalA') + ($venteC1->nombre * $venteC1->prix));
                 $request->session()->save();
             }
             elseif ($venteC1->mode == 4)
             {
                 $request->session()->put('credit.f1', ($venteC1->nombre * $venteC1->prix)/2);
+                $request->session()->put('F1.totalA', $request->session()->get('F1.totalA') + ($venteC1->nombre * $venteC1->prix)/2);
                 $request->session()->save();
             }
             else
@@ -348,14 +379,19 @@ class HomeController extends Controller
             $venteC2->semaine = $request->session()->get('semaine');
             $venteC2->client = 1;
             $venteC2->save();
+
+            $request->session()->put('F2.totalU', $request->session()->get('F2.totalU') + $venteC1->nombre);
+            $request->session()->save();
             if ($venteC2->mode == 1)
             {
                 $request->session()->put('credit.f2', ($venteC2->nombre * $venteC2->prix));
+                $request->session()->put('F2.totalA', $request->session()->get('F2.totalA') + ($venteC2->nombre * $venteC2->prix));
                 $request->session()->save();
             }
             elseif ($venteC2->mode == 4)
             {
                 $request->session()->put('credit.f2', ($venteC2->nombre * $venteC2->prix)/2);
+                $request->session()->put('F2.totalA', $request->session()->get('F2.totalA') + ($venteC2->nombre * $venteC2->prix)/2);
                 $request->session()->save();
             }
             else
@@ -449,6 +485,9 @@ class HomeController extends Controller
         {
             $fabricant1->capital += ($venteC1->nombre * $venteC1->prix);
             $fabricant1->save();
+            $request->session()->put('F1.totalU', $request->session()->get('F1.totalU') + $venteC1->nombre);
+            $request->session()->put('F1.totalA', $request->session()->get('F1.totalA') + ($venteC1->nombre * $venteC1->prix));
+            $request->session()->save();
         }
 
         $fabricant2 = Fabricant::find($request->session()->get('equipe.f2'));
@@ -458,7 +497,10 @@ class HomeController extends Controller
         foreach ($ventesC2 as $venteC2)
         {
             $fabricant2->capital += ($venteC2->nombre * $venteC2->prix);
-            $fabricant1->save();
+            $fabricant2->save();
+            $request->session()->put('F2.totalU', $request->session()->get('F2.totalU') + $venteC2->nombre);
+            $request->session()->put('F2.totalA', $request->session()->get('F2.totalA') + ($venteC2->nombre * $venteC2->prix));
+            $request->session()->save();
         }
     }
 
