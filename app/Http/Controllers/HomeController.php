@@ -68,6 +68,8 @@ class HomeController extends Controller
         $request->session()->put('equipe.d', $detaillant->id);
         $request->session()->put('credit.f1', 0);
         $request->session()->put('credit.f2', 0);
+        $request->session()->put('D.totalU', 0);
+        $request->session()->put('D.totalA', 0);
         $request->session()->save();
     }
 
@@ -110,6 +112,8 @@ class HomeController extends Controller
             $detaillant->save();
             $request->session()->put('D.prix', $request->input('prixD'));
             $request->session()->put('D.nb', $request->input('nbD'));
+            $request->session()->put('D.totalU', $request->session()->get('D.totalU') + $request->input('nbD'));
+            $request->session()->put('D.totalA', $request->session()->get('D.totalA') + ($request->input('nbD') * $request->input('prixD')));
             $request->session()->save();
 
             $achat1 = new Achat();
@@ -435,10 +439,7 @@ class HomeController extends Controller
         $detaillant = Detaillant::where('id', $request->session()->get('equipe.d'))->first();
         $detaillant->update(['capital' => $detaillant->capital - 250]);
         $detaillant->save();
-    }
 
-    public function jour30(Request $request)
-    {
         //Remboursement de la fin du mois
         $fabricant1 = Fabricant::find($request->session()->get('equipe.f1'));
         $ventesC1 = Vente::where('fabricant_id', $fabricant1->id)
@@ -459,5 +460,10 @@ class HomeController extends Controller
             $fabricant2->capital += ($venteC2->nombre * $venteC2->prix);
             $fabricant1->save();
         }
+    }
+
+    public function jour30(Request $request)
+    {
+
     }
 }
