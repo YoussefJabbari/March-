@@ -14,7 +14,10 @@ class HomeController extends Controller
 {
     //
     public function index(Request $request)
-    {
+    { 
+            //$request->session()->flush();
+            //$request->session()->save();
+
         if (!$request->session()->has('marche'))
         {
             $request->session()->put('today', 1);
@@ -25,6 +28,7 @@ class HomeController extends Controller
         else
         {
             $marche = Marche::find($request->session()->get('marche'))->first();
+
 
             return view('index')->with(['fabricants' => $marche->fabricants,
                                             'detaillants' => $marche->detaillants,

@@ -14,6 +14,7 @@
 </head>
 <body>
 
+<?php //Session::put('today',5); ?>
 <div class="wrapper">
     <main>
         <!--<div class="toolbar">
@@ -50,99 +51,744 @@
                 <div class="calendar__day day"></div>
                 <div class="calendar__day day"></div>
                 <div class="calendar__day day"></div>
-                <div type="" class="btn btn-outline-warning" data-toggle="modal" data-target=" #debutmois" id="flag">
-                  <div class="calendar__day day">1<div class="calendar_day_infos_down">Aujourd'hui</div></div>
-                </div>
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi">
-                  <div class="calendar__day day">2<div class="calendar_day_infos">Plannification</div></div>
+
+
+                @if(Session::get('today')==1)
+                  <div type="" class='btn btn-outline-warning'  data-toggle="modal" data-target="#debutmois" >1
+                    <img src="../images/flag.png" width="30px" height="30px">
+                    <div class="calendar_day_infos">Aujourd'hui</div>
+                  </div>
+                @elseif(Session::get('today')>1)
+                  <div type="" class='btn bg-light btn-outline-warning'  data-toggle="modal" data-target="">1
+                    <img src="../images/flag.png" width="30px" height="30px">
+                    <div class="calendar_day_infos">Emprunte 200 banque</div>
+                  </div>
+                @endif
+                 
+
+
+                @if(Session::get('today')==2)
+                   <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi">2
+                      <div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+                @elseif(Session::get('today')>2)
+                   <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi" disabled>
+                        <table class="n-bordered">
+                          <thead>
+                            <tr>
+                              <th class="text-primary">2</th>
+                              <th >A</th>
+                              <th >D</th>
+                              <th >E</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th>F1</th>
+                              <td>MP</td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 1")
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 1")
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>F2</th>
+                              <td>MP</td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 2")
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 2")
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>D</th>
+                              <td>CH</td>
+                              <td>
+                                @foreach($Dplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($detaillants as $f)
+                                            @if($f->id == $p->detaillant_id)
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Dplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($detaillants as $f)
+                                            @if($f->id == $p->detaillant_id)
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      
+                  </button>
+                @else
+                   <button type="button" class="btn btn-light" data-toggle="modal" data-target="" disabled>2
+                      <div class="calendar_day_infos"></div>
+                  </button>
+                @endif
+
+               
+               @if(Session::get('today') == 3)
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi">3<div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+               @elseif(Session::get('today') > 3 )
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi" disabled>3
+                  </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #samedi" disabled>3
+                  </button>
+               @endif
+
+
+
+
+              @if(Session::get('today') == 4)
+                  <button type="button" class="btn" style="background-color: rgb(128,0,128);" data-toggle="modal" data-target=" #dimanche">4<div class="calendar_day_infos">Aujourd'hui</div>
                 </button>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi">
-                  <div class="calendar__day day">3<div class="calendar_day_infos">Dépensez</div></div>
+               @elseif(Session::get('today') > 4 )
+                  <button type="button" class="btn" style="background-color: rgb(128,0,128);" data-toggle="modal" data-target=" #dimanche" disabled>4<div class="calendar_day_infos"></div>
+                 </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #dimanche" disabled>4<div class="calendar_day_infos"></div>
+                  </button>
+               @endif
+                
+            </div>
+
+
+              
+
+              <div class="calendar__week">
+
+                @if(Session::get('today') == 5)
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi">5
+                    <div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+               @elseif(Session::get('today') > 5 )
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi" disabled>5
+                    <div class="calendar_day_infos">MT à 40 pièces @ Hanouti</div>
+                  </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #lundi" disabled>5
+                    <div class="calendar_day_infos"></div>
+                  </button>
+               @endif
+
+
+
+
+                @if(Session::get('today') == 6)
+                  <button type="button" class="btn" style="background-color: rgb(200,200,0);" data-toggle="modal" data-target=" #mardi">6<div class="calendar_day_infos">Aujourd'hui</div>
                 </button>
-                <button type="button" class="btn" style="background-color: rgb(128,0,128);" data-toggle="modal" data-target=" #dimanche">
-                  <div class="calendar__day day">4<div class="calendar_day_infos"></div></div>
+               @elseif(Session::get('today') > 6 )
+                  <button type="button" class="btn" style="background-color: rgb(200,200,0);" data-toggle="modal" data-target=" #mardi" disabled>6<div class="calendar_day_infos"></div>
                 </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #mardi" disabled>6<div class="calendar_day_infos"></div>
+                </button>
+               @endif
+
+
+                
+                @if(Session::get('today') == 7)
+                  <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi">7<div class="calendar_day_infos">Aujourd'hui</div>
+                </button>
+               @elseif(Session::get('today') > 7 )
+                 <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi" disabled>7<div class="calendar_day_infos">
+                    <?php $find = false; ?>
+                    @foreach($achats as $achat)
+                        @if($achat->semaine == 2)
+                            @foreach($fabricants as $fab)
+                                @if($fab->id == $achat->fabricant_id)
+                                  {{ $achat->nombre . 'unités @' . $fab->nom }}
+                                  <?php $find = true; ?>
+                                  @break
+                                @endif
+                            @endforeach
+                        @endif
+                    @endforeach
+                    @if(!$find)
+                          @foreach($ventes as $vente)
+
+                              @if($vente->semaine == 2)
+                                    @foreach($fabricants as $fab)
+                                        @if($fab->id == $vente->fabricant_id)
+                                          @if($vente->client == 0)
+                                              {{ 'Q:' . $vente->nombre .'unités @'. $fab->nom }}
+                                          @else
+                                              {{ 'C:' . $vente->nombre .'unités @'. $fab->nom }}
+                                          @endif
+                                          @break
+                                        @endif
+                                    @endforeach
+                              @endif
+                          @endforeach
+                    @endif
+                 </div>
+                </button>
+               @else
+                 <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #mercredi" disabled>7<div class="calendar_day_infos"></div>
+                </button>
+               @endif
+
+
+                
+
+
+               @if(Session::get('today') == 8)
+                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target=" #jeudi">8<div class="calendar_day_infos">Aujourd'hui</div>
+                </button>
+               @elseif(Session::get('today') > 8 )
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target=" #jeudi" disabled>8<div class="calendar_day_infos"></div>
+                </button>
+               @else
+                 <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #jeudi" disabled>8<div class="calendar_day_infos"></div>
+                </button>
+               @endif
+                
+               
+                 
+
+
+
+                 @if(Session::get('today')==9)
+                   <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi">9
+                      <div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+                @elseif(Session::get('today')>9)
+                   <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi" disabled>
+                        <table class="n-bordered">
+                          <thead>
+                            <tr>
+                              <th class="text-primary">9</th>
+                              <th >A</th>
+                              <th >D</th>
+                              <th >E</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th>F1</th>
+                              <td>MP</td>
+                              <td>40</td>
+                              <td>20</td>
+                            </tr>
+                            <tr>
+                              <th>F1</th>
+                              <td>MP</td>
+                              <td>40</td>
+                              <td>50</td>
+                            </tr>
+                            <tr>
+                              <th>D</th>
+                              <td>CH</td>
+                              <td>95</td>
+                              <td>40</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      
+                  </button>
+                @else
+                   <button type="button" class="btn btn-light" data-toggle="modal" data-target="" disabled>9
+                      <div class="calendar_day_infos"></div>
+                  </button>
+                @endif
+
+
+
+
+                @if(Session::get('today') == 10)
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi">10<div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+               @elseif(Session::get('today') > 10 )
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi" disabled>10
+                  </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #samedi" disabled>10
+                  </button>
+               @endif
+
+
+
+                
+              @if(Session::get('today') == 11)
+                  <button type="button" class="btn" style="background-color: rgb(128,0,128);" data-toggle="modal" data-target=" #dimanche">11<div class="calendar_day_infos">Aujourd'hui</div>
+                </button>
+               @elseif(Session::get('today') > 11 )
+                  <button type="button" class="btn" style="background-color: rgb(128,0,128);" data-toggle="modal" data-target=" #dimanche" disabled>11<div class="calendar_day_infos"></div>
+                 </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #dimanche" disabled>11<div class="calendar_day_infos"></div>
+                  </button>
+               @endif
+
+
+
             </div>
             <div class="calendar__week">
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi">
-                  <div class="calendar__day day">5<div class="calendar_day_infos">Dépensez</div></div>
+
+
+                @if(Session::get('today') == 12)
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi">12
+                    <div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+               @elseif(Session::get('today') > 12 )
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi" disabled>12
+                    <div class="calendar_day_infos">MT à 40 pièces @ Hanouti</div>
+                  </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #lundi" disabled>12
+                    <div class="calendar_day_infos"></div>
+                  </button>
+               @endif
+
+                @if(Session::get('today') == 13)
+                  <button type="button" class="btn" style="background-color: rgb(200,200,0);" data-toggle="modal" data-target=" #mardi">13<div class="calendar_day_infos">Aujourd'hui</div>
                 </button>
-                <button type="button" class="btn" style="background-color: rgb(200,200,0);" data-toggle="modal" data-target=" #mardi">
-                  <div class="calendar__day day">6<div class="calendar_day_infos"></div></div>
+               @elseif(Session::get('today') > 13 )
+                  <button type="button" class="btn" style="background-color: rgb(200,200,0);" data-toggle="modal" data-target=" #mardi" disabled>13<div class="calendar_day_infos"></div>
                 </button>
-                <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi">
-                  <div class="calendar__day day">7<div class="calendar_day_infos"></div></div>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #mardi" disabled>13<div class="calendar_day_infos"></div>
                 </button>
-                <button type="button" class="btn btn-warning" data-toggle="modal" data-target=" #jeudi">
-                  <div class="calendar__day day">8<div class="calendar_day_infos">Aujourd'hui</div></div>
+               @endif
+
+
+
+                 @if(Session::get('today') == 14)
+                  <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi">14<div class="calendar_day_infos">Aujourd'hui</div>
                 </button>
-                 <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi">
-                  <div class="calendar__day day">9<div class="calendar_day_infos">Plannification</div></div>
+               @elseif(Session::get('today') > 14 )
+                 <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi" disabled>14<div class="calendar_day_infos">
+                    <?php $find = false; ?>
+                    @foreach($achats as $achat)
+                        @if($achat->semaine == 3)
+                            @foreach($fabricants as $fab)
+                                @if($fab->id == $achat->fabricant_id)
+                                  {{ $achat->nombre . 'unités @' . $fab->nom }}
+                                  <?php $find = true; ?>
+                                  @break
+                                @endif
+                            @endforeach
+                        @endif
+                    @endforeach
+                    @if(!$find)
+                          @foreach($ventes as $vente)
+                              @if($vente->semaine == 3)
+                                    @foreach($fabricants as $fab)
+                                        @if($fab->id == $vente->fabricant_id)
+                                          @if($vente->client == 0)
+                                              {{ 'Q:' . $vente->nombre .'unités @'. $fab->nom }}
+                                          @else
+                                              {{ 'C:' . $vente->nombre .'unités @'. $fab->nom }}
+                                          @endif
+                                          @break
+                                        @endif
+                                    @endforeach
+                              @endif
+                          @endforeach
+                    @endif
+                 </div>
                 </button>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi">
-                  <div class="calendar__day day">10<div class="calendar_day_infos">Dépensez</div></div>
+               @else
+                 <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #mercredi" disabled>14<div class="calendar_day_infos"></div>
                 </button>
-                <button type="button" class="btn" style="background-color: rgb(128,0,128);" data-toggle="modal" data-target=" #dimanche">
-                  <div class="calendar__day day">11<div class="calendar_day_infos"></div></div>
+               @endif
+
+
+
+                @if(Session::get('today') == 15)
+                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target=" #jeudi">15<div class="calendar_day_infos">Aujourd'hui</div>
                 </button>
+               @elseif(Session::get('today') > 15 )
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target=" #jeudi" disabled>15<div class="calendar_day_infos"></div>
+                </button>
+               @else
+                 <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #jeudi" disabled>15<div class="calendar_day_infos"></div>
+                </button>
+               @endif
+                 
+
+
+                 @if(Session::get('today')==16)
+                   <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi">16
+                      <div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+                @elseif(Session::get('today')>16)
+                   <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi" disabled>
+                        <table class="n-bordered">
+                          <thead>
+                            <tr>
+                              <th class="text-primary">16</th>
+                              <th >A</th>
+                              <th >D</th>
+                              <th >E</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th>F1</th>
+                              <td>MP</td>
+                              <td>40</td>
+                              <td>20</td>
+                            </tr>
+                            <tr>
+                              <th>F1</th>
+                              <td>MP</td>
+                              <td>40</td>
+                              <td>50</td>
+                            </tr>
+                            <tr>
+                              <th>D</th>
+                              <td>CH</td>
+                              <td>95</td>
+                              <td>40</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      
+                  </button>
+                @else
+                   <button type="button" class="btn btn-light" data-toggle="modal" data-target="" disabled>16
+                      <div class="calendar_day_infos"></div>
+                  </button>
+                @endif
+
+
+
+
+                
+
+                @if(Session::get('today') == 17)
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi">17<div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+               @elseif(Session::get('today') > 17 )
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi" disabled>17
+                  </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #samedi" disabled>17
+                  </button>
+               @endif
+
+
+
+
+                
+                @if(Session::get('today') == 18)
+                  <button type="button" class="btn" style="background-color: rgb(128,0,128);" data-toggle="modal" data-target=" #dimanche">18<div class="calendar_day_infos">Aujourd'hui</div>
+                </button>
+               @elseif(Session::get('today') > 18)
+                  <button type="button" class="btn" style="background-color: rgb(128,0,128);" data-toggle="modal" data-target=" #dimanche" disabled>18<div class="calendar_day_infos"></div>
+                 </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #dimanche" disabled>18<div class="calendar_day_infos"></div>
+                  </button>
+               @endif
+
+
             </div>
             <div class="calendar__week">
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi">
-                  <div class="calendar__day day">12<div class="calendar_day_infos">Dépensez</div></div>
+                
+
+                @if(Session::get('today') == 19)
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi">19
+                    <div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+               @elseif(Session::get('today') > 19 )
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi" disabled>19
+                    <div class="calendar_day_infos">MT à 40 pièces @ Hanouti</div>
+                  </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #lundi" disabled>19
+                    <div class="calendar_day_infos"></div>
+                  </button>
+               @endif
+
+
+
+                @if(Session::get('today') == 20)
+                  <button type="button" class="btn" style="background-color: rgb(200,200,0);" data-toggle="modal" data-target=" #mardi">20<div class="calendar_day_infos">Aujourd'hui</div>
                 </button>
-                <button type="button" class="btn" style="background-color: rgb(200,200,0);" data-toggle="modal" data-target=" #mardi">
-                  <div class="calendar__day day">13<div class="calendar_day_infos"></div></div>
+               @elseif(Session::get('today') > 20 )
+                  <button type="button" class="btn" style="background-color: rgb(200,200,0);" data-toggle="modal" data-target=" #mardi" disabled>20<div class="calendar_day_infos"></div>
                 </button>
-                 <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi">
-                  <div class="calendar__day day">14<div class="calendar_day_infos"></div></div>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #mardi" disabled>20<div class="calendar_day_infos"></div>
                 </button>
-                <button type="button" class="btn btn-warning" data-toggle="modal" data-target=" #jeudi">
-                  <div class="calendar__day day">15<div class="calendar_day_infos">Aujourd'hui</div></div>
+               @endif
+
+
+
+                 
+
+                 @if(Session::get('today') == 21)
+                  <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi">21<div class="calendar_day_infos">Aujourd'hui</div>
                 </button>
-                 <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi">
-                  <div class="calendar__day day">16<div class="calendar_day_infos">Plannification</div></div>
+               @elseif(Session::get('today') > 21 )
+                 <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi" disabled>21<div class="calendar_day_infos">
+                    <?php $find = false; ?>
+                    @foreach($achats as $achat)
+                        @if($achat->semaine == 4)
+                            @foreach($fabricants as $fab)
+                                @if($fab->id == $achat->fabricant_id)
+                                  {{ $achat->nombre . 'unités @' . $fab->nom }}
+                                  <?php $find = true; ?>
+                                  @break
+                                @endif
+                            @endforeach
+                        @endif
+                    @endforeach
+                    @if(!$find)
+                          @foreach($ventes as $vente)
+                              @if($vente->semaine == 4)
+                                    @foreach($fabricants as $fab)
+                                        @if($fab->id == $vente->fabricant_id)
+                                          @if($vente->client == 0)
+                                              {{ 'Q:' . $vente->nombre .'unités @'. $fab->nom }}
+                                          @else
+                                              {{ 'C:' . $vente->nombre .'unités @'. $fab->nom }}
+                                          @endif
+                                          @break
+                                        @endif
+                                    @endforeach
+                              @endif
+                          @endforeach
+                    @endif
+                 </div>
                 </button>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi">
-                  <div class="calendar__day day">17<div class="calendar_day_infos">Dépensez</div></div>
+               @else
+                 <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #mercredi" disabled>21<div class="calendar_day_infos"></div>
                 </button>
-                <button type="button" class="btn" style="background-color: rgb(128,0,128);" data-toggle="modal" data-target=" #dimanche">
-                  <div class="calendar__day day">18<div class="calendar_day_infos"></div></div>
+               @endif
+
+
+
+
+
+                @if(Session::get('today') == 22)
+                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target=" #jeudi">22<div class="calendar_day_infos">Aujourd'hui</div>
                 </button>
+               @elseif(Session::get('today') > 22 )
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target=" #jeudi" disabled>22<div class="calendar_day_infos"></div>
+                </button>
+               @else
+                 <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #jeudi" disabled>22<div class="calendar_day_infos"></div>
+                </button>
+               @endif
+                
+
+
+                @if(Session::get('today')==23)
+                   <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi">23
+                      <div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+                @elseif(Session::get('today')>23)
+                   <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi" disabled>
+                        <table class="n-bordered">
+                          <thead>
+                            <tr>
+                              <th class="text-primary">23</th>
+                              <th >A</th>
+                              <th >D</th>
+                              <th >E</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th>F1</th>
+                              <td>MP</td>
+                              <td>40</td>
+                              <td>20</td>
+                            </tr>
+                            <tr>
+                              <th>F1</th>
+                              <td>MP</td>
+                              <td>40</td>
+                              <td>50</td>
+                            </tr>
+                            <tr>
+                              <th>D</th>
+                              <td>CH</td>
+                              <td>95</td>
+                              <td>40</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      
+                  </button>
+                @else
+                   <button type="button" class="btn btn-light" data-toggle="modal" data-target="" disabled>23
+                      <div class="calendar_day_infos"></div>
+                  </button>
+                @endif
+
+
+
+                @if(Session::get('today') == 24)
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi">24<div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+               @elseif(Session::get('today') > 24 )
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi" disabled>24
+                  </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #samedi" disabled>24
+                  </button>
+               @endif
+
+
+
+
+
+               @if(Session::get('today') == 25)
+                  <button type="button" class="btn" style="background-color: rgb(128,0,128);" data-toggle="modal" data-target=" #dimanche">25<div class="calendar_day_infos">Aujourd'hui</div>
+                </button>
+               @elseif(Session::get('today') > 25)
+                  <button type="button" class="btn" style="background-color: rgb(128,0,128);" data-toggle="modal" data-target=" #dimanche" disabled>25<div class="calendar_day_infos"></div>
+                 </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #dimanche" disabled>25<div class="calendar_day_infos"></div>
+                  </button>
+               @endif
+
+
+                
             </div>
             <div class="calendar__week">
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi">
-                  <div class="calendar__day day">19<div class="calendar_day_infos">Dépensez</div></div>
+                
+
+                @if(Session::get('today') == 26)
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi">26
+                    <div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+               @elseif(Session::get('today') > 26 )
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi" disabled>26
+                    <div class="calendar_day_infos">MT à 40 pièces @ Hanouti</div>
+                  </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #lundi" disabled>26
+                    <div class="calendar_day_infos"></div>
+                  </button>
+               @endif
+
+
+
+
+               @if(Session::get('today') == 27)
+                  <button type="button" class="btn" style="background-color: rgb(235,235,0);" data-toggle="modal" data-target=" #le27">27<div class="calendar_day_infos">Aujourd'hui</div>
                 </button>
-                <button type="button" class="btn" style="background-color: rgb(200,200,0);" data-toggle="modal" data-target=" #mardi">
-                  <div class="calendar__day day">20<div class="calendar_day_infos"></div></div>
+               @elseif(Session::get('today') > 27)
+                  <button type="button" class="btn" style="background-color: rgb(235,235,0);" data-toggle="modal" data-target=" #le27" disabled="">27<div class="calendar_day_infos">Loyer payé à 100 pièces</div>
                 </button>
-                 <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi">
-                  <div class="calendar__day day">21<div class="calendar_day_infos"></div></div>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #le27" disabled="">27<div class="calendar_day_infos"></div>
                 </button>
-                <button type="button" class="btn btn-warning" data-toggle="modal" data-target=" #jeudi">
-                  <div class="calendar__day day">22<div class="calendar_day_infos">Aujourd'hui</div></div>
+               @endif
+
+
+                
+                 @if(Session::get('today') == 28)
+                  <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi">28<div class="calendar_day_infos">Aujourd'hui</div>
                 </button>
-                 <button type="button" class="btn btn-info" data-toggle="modal" data-target=" #vendredi">
-                  <div class="calendar__day day">23<div class="calendar_day_infos">Plannification</div></div>
+               @elseif(Session::get('today') > 28 )
+                 <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi" disabled>28<div class="calendar_day_infos">
+                    <?php $find = false; ?>
+                    @foreach($achats as $achat)
+                        @if($achat->semaine == 5)
+                            @foreach($fabricants as $fab)
+                                @if($fab->id == $achat->fabricant_id)
+                                  {{ $achat->nombre . 'unités @' . $fab->nom }}
+                                  <?php $find = true; ?>
+                                  @break
+                                @endif
+                            @endforeach
+                        @endif
+                    @endforeach
+                    @if(!$find)
+                          @foreach($ventes as $vente)
+                              @if($vente->semaine == 5)
+                                    @foreach($fabricants as $fab)
+                                        @if($fab->id == $vente->fabricant_id)
+                                          @if($vente->client == 0)
+                                              {{ 'Q:' . $vente->nombre .'unités @'. $fab->nom }}
+                                          @else
+                                              {{ 'C:' . $vente->nombre .'unités @'. $fab->nom }}
+                                          @endif
+                                          @break
+                                        @endif
+                                    @endforeach
+                              @endif
+                          @endforeach
+                    @endif
+                 </div>
                 </button>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target=" #samedi">
-                  <div class="calendar__day day">24<div class="calendar_day_infos">Dépensez</div></div>
+               @else
+                 <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #mercredi" disabled>28<div class="calendar_day_infos"></div>
                 </button>
-                <div class="calendar__day day">25</div>
-            </div>
-            <div class="calendar__week">
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target=" #lundi">
-                  <div class="calendar__day day">26<div class="calendar_day_infos">Dépensez</div></div>
-                </button>
-                <button type="button" class="btn" style="background-color: rgb(235,235,0);" data-toggle="modal" data-target=" #le27">
-                  <div class="calendar__day day">27<div class="calendar_day_infos"></div></div>
-                </button>
-                 <button type="button" class="btn" style="background-color: rgb(45,152,96);" data-toggle="modal" data-target=" #mercredi">
-                  <div class="calendar__day day">28<div class="calendar_day_infos"></div></div>
-                </button>
-                <button type="button" class="btn" style="background-color: rgb(255,146,26);" data-toggle="modal" data-target=" #le29">
-                  <div class="calendar__day day">29<div class="calendar_day_infos"></div></div>
-                </button>
+               @endif
+
+
+
+               @if(Session::get('today') == 29)
+                  <button type="button" class="btn" style="background-color: rgb(255,146,26);" data-toggle="modal" data-target=" #le29">29<div class="calendar_day_infos">Aujourd'hui</div>
+                  </button>
+               @elseif(Session::get('today') > 29 )
+                  <button type="button" class="btn" style="background-color: rgb(255,146,26);" data-toggle="modal" data-target=" #le29" disabled>29<div class="calendar_day_infos">Banque remboursée 250 pièces</div>
+                  </button>
+               @else
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target=" #le29" disabled>29<div class="calendar_day_infos"></div>
+                  </button>
+               @endif
+
+
+                
+
+
+
                 <div class="calendar__day day">30</div>
                 <div class="calendar__day day"></div>
                 <div class="calendar__day day"></div>
@@ -224,8 +870,9 @@
                         <button type="submit" class="btn btn-primary-modal">Acheter matière première chez Hanouty
                             <i class="fa fa-shopping-cart ml-1"></i>
                         </button>
+                        
+                        <button type="button" class="btn btn-outline-danger  waves-effect" data-dismiss="modal">Retour</a>
                         </form>
-                        <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -265,8 +912,9 @@
                         <button type="submit" style="background-color: rgb(200,200,0);" class="btn btn-primary-modal" >Fabriquez les chapeaux
                             <i class="fa fa-gears ml-1"></i>
                         </button>
-                        </form>
-                        <a type="button" class="btn btn-outline-warning-modal waves-effect" data-dismiss="modal">Retour</a>
+                       
+                        <button type="button" class="btn  waves-effect" style="border: 1px solid rgb(200,200,0); " data-dismiss="modal">Retour</button>
+                         </form>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -286,7 +934,7 @@
                     {{ csrf_field() }}
                 <!--Header-->
                 <div class="modal-header" style="background-color: rgb(45,152,96);" >
-                    <p class="heading lead">Vendez chapeaux</p>
+                    <p class="heading lead">Vente des chapeaux</p>
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="white-text">&times;</span>
@@ -336,10 +984,10 @@
 
                 <!--Footer-->
                 <div class="modal-footer justify-content-center">
-                     <button id="sendMessageButton"  style="background-color: rgb(45,152,96);" class="btn btn-primary-modal" type="submit">Sauvegarder planification
+                     <button id="sendMessageButton"  style="background-color: rgb(45,152,96);" class="btn btn-primary-modal" type="submit">Vendre
                      <i class="fa fa-pencil-square-o ml-1"></i>
                      </button>
-                    <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">Retour</a>
+                    <button type="button" class="btn  waves-effect" style="border:1px solid rgb(45,152,96);" data-dismiss="modal">Retour</button>
                 </div>
                </form>
             </div>
@@ -380,8 +1028,9 @@
                             <button type="submit" class="btn btn-primary-modal">Empruntez 200 de la banque
                                 <i class="fa fa-bank ml-1"></i>
                             </button>
+                        
+                        <button type="" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</button>
                         </form>
-                        <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -460,7 +1109,7 @@
                                     <div class="card border-info mb-3">
                                       <div class="card-header text-center">Détaillant</div>
                                      <div class="card-body text-info">
-                                         <p>Vendre x chapeaux a y pieces </p>
+                                         <p>Vendre {{ Session::get('D.nb') }} chapeaux a {{ Session::get('D.prix') }} pieces </p>
                                     </div>
                                   </div>
                                     
@@ -496,11 +1145,11 @@
 <!--  Modal le 27-->
         <div class="modal fade top" id="le27" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
             data-backdrop="false">
-            <div class="modal-dialog modal-full-height modal-top modal-notify modal-warning" role="document">
+            <div class="modal-dialog modal-full-height modal-top modal-notify" role="document">
                 <!--Content-->
                 <div class="modal-content">
                     <!--Header-->
-                    <div class="modal-header">
+                    <div class="modal-header" style="background-color: rgb(235,235,0);">
                         <p class="heading lead">Collectez</p>
 
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -541,10 +1190,10 @@
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
                         <div id="next_btn"></div>
-                        <a id='v_det' type="button" class="btn btn-primary-modal">Payez loyez
+                        <a id='v_det' type="button" style="background-color: rgb(235,235,0);" class="btn btn-primary-modal">Payez loyez
                             <i class="fa fa-bank ml-1"></i>
                         </a>
-                        <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
+                        <a type="button" class="btn text-warning waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -730,8 +1379,9 @@
                         <button type="submit" class="btn btn-primary-modal">Retrirez salaire des employés
                             <i class="fa fa-money ml-1"></i>
                         </button>
+                        
+                        <button type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">Retour</button>
                         </form>
-                        <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -756,6 +1406,7 @@
                         </button>
                     </div>
 
+
                     <!--Body-->
                     <div class="modal-body">
                         <div class="text-center">
@@ -771,7 +1422,15 @@
                                         <div class="col-md-4"></div>
                                         <div class="col-md-4">
                                               <div class="form-group">
-                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez" required data-validation-required-message="Please enter your name.">
+                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez fabricants 1" required data-validation-required-message="Please enter your name.">
+                                                <p class="help-block text-danger"></p>
+                                              </div>
+                                              <div class="form-group">
+                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez fabricants 2" required data-validation-required-message="Please enter your name.">
+                                                <p class="help-block text-danger"></p>
+                                              </div>
+                                              <div class="form-group">
+                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez Détaillant" required data-validation-required-message="Please enter your name.">
                                                 <p class="help-block text-danger"></p>
                                               </div>
                                               
@@ -892,8 +1551,10 @@
                        $('#card_det').remove();
                        $('sandwish').remove();
                          
-                        var next_cards='<div class="col-md-2"></div><div class="col-md-4"><div class="card border-info mb-3" ><div class="card-header text-center">Fabricant 1</div><div class="card-body text-info"><p>Encaissez (ici val) pièces</p> </div></div></div><div class="col-md-4"><div class="card border-info mb-3"><div class="card-header text-center">Fabricant 2</div><div class="card-body text-info"><p>Encaissez (ici val) pièces</p></div></div></div>';
+
+                        var next_cards='<div class="col-md-2"></div><div class="col-md-4"><div class="card border-info mb-3" ><div class="card-header text-center">Fabricant 1</div><div class="card-body text-info"><p>Encaissez {{ Session::get('credit.f1') }} pièces</p> </div></div></div><div class="col-md-4"><div class="card border-info mb-3"><div class="card-header text-center">Fabricant 2</div><div class="card-body text-info"><p>Encaissez {{ Session::get('credit.f2') }} pièces</p></div></div></div>';
                         var next_btn = '<button type="submit" class="btn btn-primary-modal">Encaissement d\'argents<i class="fa fa-bank ml-1"></i></button>';
+
 
                         $('#next_cards').html(next_cards);
                         $('#next_btn').html(next_btn);
