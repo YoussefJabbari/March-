@@ -504,6 +504,18 @@ class HomeController extends Controller
         }
     }
 
+    public function expired(Request $request)
+    {
+
+        if (!($request->session()->get('today') == 30))
+        {
+            $request->session()->put('today', $request->session()->get('today') + 1);
+            $request->session()->save();
+        }
+
+        return redirect()->route('Calendar');
+    }
+    
     public function jour30(Request $request)
     {
 
