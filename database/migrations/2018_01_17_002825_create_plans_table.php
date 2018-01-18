@@ -15,8 +15,8 @@ class CreatePlansTable extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('fabricant_id')->unsigned();
-            $table->integer('detaillant_id')->unsigned();
+            $table->integer('fabricant_id')->unsigned()->nullable();
+            $table->integer('detaillant_id')->unsigned()->nullable();
             $table->string('achats');
             $table->integer('depenses');
             $table->float('economies');

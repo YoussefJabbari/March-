@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Detaillant extends Model
 {
     //
+    protected $fillable = ['capital'];
 }
