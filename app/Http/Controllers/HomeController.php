@@ -62,6 +62,8 @@ class HomeController extends Controller
         $request->session()->put('equipe.f1', $fabricant1->id);
         $request->session()->put('equipe.f2', $fabricant2->id);
         $request->session()->put('equipe.d', $detaillant->id);
+        $request->session()->put('credit.f1', 0);
+        $request->session()->put('credit.f2', 0);
         $request->session()->save();
     }
 
