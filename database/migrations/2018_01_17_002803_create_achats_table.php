@@ -19,7 +19,7 @@ class CreateAchatsTable extends Migration
             $table->integer('detaillant_id')->unsigned();
             $table->float('prix');
             $table->integer('nombre');
-            $table->integer('semaine');
+            $table->integer('semaine')->nullable();
 
             $table->foreign('fabricant_id')->references('id')->on('fabricants');
             $table->foreign('detaillant_id')->references('id')->on('detaillants');

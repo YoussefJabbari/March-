@@ -117,7 +117,6 @@ class HomeController extends Controller
             $achat1->fabricant_id = $request->session()->get('equipe.f1');
             $achat1->prix = $request->input('prixF1');
             $achat1->nombre = $request->input('nbF1');
-            $achat1->semaine = $request->session()->get('semaine');
             $achat1->save();
 
             $achat2 = new Achat();
@@ -125,7 +124,6 @@ class HomeController extends Controller
             $achat2->fabricant_id = $request->session()->get('equipe.f2');
             $achat2->prix = $request->input('prixF2');
             $achat2->nombre = $request->input('nbF2');
-            $achat2->semaine = $request->session()->get('semaine');
             $achat2->save();
         }
 
@@ -167,19 +165,22 @@ class HomeController extends Controller
     public function dimanche(Request $request)
     {
         //Economies
-        $fabricant1 = Fabricant::find($request->session()->get('equipe.f1'));
-        $plan1 = Plan::where('fabricant_id', $fabricant1->id)->first();
-        $fabricant1->capital -= $plan1->economies;
+        $fabricant1 = Fabricant::where('id', $request->session()->get('equipe.f1'))->first();
+        $plan1 = Plan::where('fabricant_id', $fabricant1->id)
+                    ->where('semaine', $request->session()->get('semaine'))->first();
+        $fabricant1->update(['capital' => $fabricant1->capital - $plan1->economies]);
         $fabricant1->save();
 
-        $fabricant2 = Fabricant::find($request->session()->get('equipe.f2'));
-        $plan2 = Plan::where('fabricant_id', $fabricant2->id)->first();
-        $fabricant2->capital -= $plan2->economies;
+        $fabricant2 = Fabricant::where('id', $request->session()->get('equipe.f2'))->first();
+        $plan2 = Plan::where('fabricant_id', $fabricant2->id)
+                    ->where('semaine', $request->session()->get('semaine'))->first();
+        $fabricant2->update(['capital' => $fabricant2->capital - $plan2->economies]);
         $fabricant2->save();
 
-        $detaillant = Detaillant::find($request->session()->get('equipe.d'));
-        $plan = Plan::where('detaillant_id', $detaillant->id)->first();
-        $detaillant->capital -= $plan->economies;
+        $detaillant = Detaillant::where('id', $request->session()->get('equipe.d'))->first();
+        $plan = Plan::where('detaillant_id', $detaillant->id)
+                    ->where('semaine', $request->session()->get('semaine'))->first();
+        $detaillant->update(['capital' => $detaillant->capital - $plan->economies]);
         $detaillant->save();
 
         //Paiement des Clients
@@ -189,7 +190,7 @@ class HomeController extends Controller
                         ->where('semaine', $request->session()->get('semaine'))->first();
         if($venteC1 != null)
         {
-            $fabricant1->capital += ($venteC1->nombre * $venteC1->prix) / 2;
+            $fabricant1->update(['capital' => $fabricant1->capital + (($venteC1->nombre * $venteC1->prix) / 2)]);
             $fabricant1->save();
         }
 
@@ -199,7 +200,7 @@ class HomeController extends Controller
                         ->where('semaine', $request->session()->get('semaine'))->first();
         if($venteC2 != null)
         {
-            $fabricant2->capital += ($venteC2->nombre * $venteC2->prix) / 2;
+            $fabricant2->update(['capital' => $fabricant2->capital + (($venteC2->nombre * $venteC2->prix) / 2)]);
             $fabricant2->save();
         }
 
@@ -292,13 +293,17 @@ class HomeController extends Controller
         elseif ($request->input('mode') == "v_n")
         {
             //Détaillants
-            $achat1 = Achat::where('fabricant_id', $fabricant1->id)->where('detaillant_id', $detaillant->id)->first();
+            $achat1 = Achat::where('fabricant_id', $fabricant1->id)
+                            ->where('detaillant_id', $detaillant->id)
+                            ->where('semaine', null)->first();
             $achat1->update(['semaine' => $request->session()->get('semaine')]);
             $achat1->save();
             $fabricant1->update(['capital' => $fabricant1->capital + ($achat1->nombre * $achat1->prix)]);
             $fabricant1->save();
 
-            $achat2 = Achat::where('fabricant_id', $fabricant2->id)->where('detaillant_id', $detaillant->id)->first();
+            $achat2 = Achat::where('fabricant_id', $fabricant2->id)
+                            ->where('detaillant_id', $detaillant->id)
+                            ->where('semaine', null)->first();
             $achat2->update(['semaine' => $request->session()->get('semaine')]);
             $achat2->save();
             $fabricant2->update(['capital' => $fabricant2->capital + ($achat2->nombre * $achat2->prix)]);
@@ -419,23 +424,22 @@ class HomeController extends Controller
 
     public function jour29(Request $request)
     {
-        $fabricant1 = Fabricant::find($request->session()->get('equipe.f1'));
-        $fabricant1->capital -= 250;
+        $fabricant1 = Fabricant::where('id', $request->session()->get('equipe.f1'))->first();
+        $fabricant1->update(['capital' => $fabricant1->capital - 250]);
         $fabricant1->save();
 
-        $fabricant2 = Fabricant::find($request->session()->get('equipe.f2'));
-        $fabricant2->capital -= 250;
+        $fabricant2 = Fabricant::where('id', $request->session()->get('equipe.f2'))->first();
+        $fabricant2->update(['capital' => $fabricant2->capital - 250]);
         $fabricant2->save();
 
-        $detaillant = Detaillant::find($request->session()->get('equipe.d'));
-        $detaillant->capital -= 250;
+        $detaillant = Detaillant::where('id', $request->session()->get('equipe.d'))->first();
+        $detaillant->update(['capital' => $detaillant->capital - 250]);
         $detaillant->save();
     }
 
     public function jour30(Request $request)
     {
         //Remboursement de la fin du mois
-
         $fabricant1 = Fabricant::find($request->session()->get('equipe.f1'));
         $ventesC1 = Vente::where('fabricant_id', $fabricant1->id)
             ->where('client', 1)

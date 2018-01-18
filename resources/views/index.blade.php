@@ -870,8 +870,7 @@
                         <button type="submit" class="btn btn-primary-modal">Acheter matière première chez Hanouty
                             <i class="fa fa-shopping-cart ml-1"></i>
                         </button>
-                        
-                        <button type="button" class="btn btn-outline-danger  waves-effect" data-dismiss="modal">Retour</a>
+                            <button type="button" class="btn btn-outline-danger  waves-effect" data-dismiss="modal">Retour</button>
                         </form>
                     </div>
                 </div>
@@ -1029,7 +1028,7 @@
                                 <i class="fa fa-bank ml-1"></i>
                             </button>
                         
-                        <button type="" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</button>
+                        <button class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</button>
                         </form>
                     </div>
                 </div>
@@ -1065,10 +1064,13 @@
 
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <a type="button" class="btn btn-primary-modal">Remboursez la banque 250 pièces
+                        <form method="POST" action="{{ route('Jeudi') }}">
+                            {{ csrf_field() }}
+                        <button type="submit" class="btn btn-primary-modal">Remboursez la banque 250 pièces
                             <i class="fa fa-bank ml-1"></i>
-                        </a>
-                        <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
+                        </button>
+                        <button class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</button>
+                        </form>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -1189,11 +1191,14 @@
 
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
+                        <form method="POST" action="{{ route('Mardi') }}">
+                            {{ csrf_field() }}
                         <div id="next_btn"></div>
-                        <a id='v_det' type="button" style="background-color: rgb(235,235,0);" class="btn btn-primary-modal">Payez loyez
+                        <button id='v_det' type="submit" style="background-color: rgb(235,235,0);" class="btn btn-primary-modal">Payez loyez
                             <i class="fa fa-bank ml-1"></i>
-                        </a>
-                        <a type="button" class="btn text-warning waves-effect" data-dismiss="modal">Retour</a>
+                        </button>
+                        <button class="btn text-warning waves-effect" data-dismiss="modal">Retour</button>
+                        </form>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -1396,7 +1401,8 @@
             <div class="modal-dialog modal-full-height modal-top modal-notify " role="document">
                 <!--Content-->
                 <div class="modal-content">
-                    <form id="contactForm" name="sentMessage" novalidate>
+                    <form id="contactForm" name="sentMessage" novalidate method="POST" action="{{ route('Dimanche') }}">
+                        {{ csrf_field() }}
                     <!--Header-->
                     <div class="modal-header" style="background-color: rgb(128,0,128);">
                         <p class="heading lead">Economisez</p>
@@ -1406,7 +1412,6 @@
                         </button>
                     </div>
 
-
                     <!--Body-->
                     <div class="modal-body">
                         <div class="text-center">
@@ -1414,36 +1419,11 @@
                         </div>
                         <div class="text-center text-warning" id="timer">00:30</div>
 
-                        
-                      
-
-
-                      <div class="row">
-                                        <div class="col-md-4"></div>
-                                        <div class="col-md-4">
-                                              <div class="form-group">
-                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez fabricants 1" required data-validation-required-message="Please enter your name.">
-                                                <p class="help-block text-danger"></p>
-                                              </div>
-                                              <div class="form-group">
-                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez fabricants 2" required data-validation-required-message="Please enter your name.">
-                                                <p class="help-block text-danger"></p>
-                                              </div>
-                                              <div class="form-group">
-                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez Détaillant" required data-validation-required-message="Please enter your name.">
-                                                <p class="help-block text-danger"></p>
-                                              </div>
-                                              
-                                        </div>
-                                          
-
-                    </div>
-
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <a type="button" style="background-color: rgb(128,0,128);" class="btn btn-primary-modal">Epargnez à la banque
+                        <button type="submit" style="background-color: rgb(128,0,128);" class="btn btn-primary-modal">Epargnez à la banque
                             <i class="fa fa-bank ml-1"></i>
-                        </a>
+                        </button>
                         <a type="button" class="btn btn-secondary btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                     </div>
