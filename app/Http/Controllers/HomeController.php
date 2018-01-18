@@ -15,7 +15,10 @@ class HomeController extends Controller
 {
     //
     public function index(Request $request)
-    {
+    { 
+            //$request->session()->flush();
+            //$request->session()->save();
+
         if (!$request->session()->has('marche'))
         {
             $request->session()->put('today', 1);
@@ -33,12 +36,12 @@ class HomeController extends Controller
             $Fplans = $marche->Fplans();
             $Dplans = $marche->Dplans();
 
-            return view('index')->with(['fabricants' => $fabricants,
-                                            'detaillants' => $detaillants,
-                                            'achats' => $achats,
-                                            'ventes' => $ventes,
-                                            'Fplans' => $Fplans,
-                                            'Dplans' => $Dplans]);
+            return view('index')->with(['fabricants' => $marche->fabricants,
+                                            'detaillants' => $marche->detaillants,
+                                            'achats' => $marche->achats,
+                                            'ventes' => $marche->ventes,
+                                            'Fplans' => $marche->Fplans,
+                                            'Dplans' => $marche->Dplans]);
         }
     }
 

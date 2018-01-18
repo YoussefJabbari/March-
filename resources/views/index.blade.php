@@ -13,7 +13,8 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-<?php Session::put('today',7); ?>
+
+<?php //Session::put('today',5); ?>
 <div class="wrapper">
     <main>
         <!--<div class="toolbar">
@@ -85,20 +86,80 @@
                             <tr>
                               <th>F1</th>
                               <td>MP</td>
-                              <td>40</td>
-                              <td>20</td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 1")
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 1")
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                             <tr>
-                              <th>F1</th>
+                              <th>F2</th>
                               <td>MP</td>
-                              <td>40</td>
-                              <td>50</td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 2")
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Fplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($fabricants as $f)
+                                            @if($f->id == $p->fabricant_id AND $f->nom == "Equipe 2")
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                             <tr>
                               <th>D</th>
                               <td>CH</td>
-                              <td>95</td>
-                              <td>40</td>
+                              <td>
+                                @foreach($Dplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($detaillants as $f)
+                                            @if($f->id == $p->detaillant_id)
+                                              {{ $p->depenses }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach($Dplans as $p)
+                                    @if($p->semaine == 1)
+                                        @foreach($detaillants as $f)
+                                            @if($f->id == $p->detaillant_id)
+                                              {{ $p->economies }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                              </td>
                             </tr>
                           </tbody>
                         </table>
@@ -191,7 +252,8 @@
                         @endif
                     @endforeach
                     @if(!$find)
-                          @foreach(ventes as $vente)
+                          @foreach($ventes as $vente)
+
                               @if($vente->semaine == 2)
                                     @foreach($fabricants as $fab)
                                         @if($fab->id == $vente->fabricant_id)
@@ -356,7 +418,7 @@
                         @endif
                     @endforeach
                     @if(!$find)
-                          @foreach(ventes as $vente)
+                          @foreach($ventes as $vente)
                               @if($vente->semaine == 3)
                                     @foreach($fabricants as $fab)
                                         @if($fab->id == $vente->fabricant_id)
@@ -522,7 +584,7 @@
                         @endif
                     @endforeach
                     @if(!$find)
-                          @foreach(ventes as $vente)
+                          @foreach($ventes as $vente)
                               @if($vente->semaine == 4)
                                     @foreach($fabricants as $fab)
                                         @if($fab->id == $vente->fabricant_id)
@@ -687,7 +749,7 @@
                         @endif
                     @endforeach
                     @if(!$find)
-                          @foreach(ventes as $vente)
+                          @foreach($ventes as $vente)
                               @if($vente->semaine == 5)
                                     @foreach($fabricants as $fab)
                                         @if($fab->id == $vente->fabricant_id)
@@ -808,8 +870,9 @@
                         <button type="submit" class="btn btn-primary-modal">Acheter matière première chez Hanouty
                             <i class="fa fa-shopping-cart ml-1"></i>
                         </button>
+                        
+                        <button type="button" class="btn btn-outline-danger  waves-effect" data-dismiss="modal">Retour</a>
                         </form>
-                        <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -849,8 +912,9 @@
                         <button type="submit" style="background-color: rgb(200,200,0);" class="btn btn-primary-modal" >Fabriquez les chapeaux
                             <i class="fa fa-gears ml-1"></i>
                         </button>
-                        </form>
-                        <a type="button" class="btn btn-outline-warning-modal waves-effect" data-dismiss="modal">Retour</a>
+                       
+                        <button type="button" class="btn  waves-effect" style="border: 1px solid rgb(200,200,0); " data-dismiss="modal">Retour</button>
+                         </form>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -870,7 +934,7 @@
                     {{ csrf_field() }}
                 <!--Header-->
                 <div class="modal-header" style="background-color: rgb(45,152,96);" >
-                    <p class="heading lead">Vendez chapeaux</p>
+                    <p class="heading lead">Vente des chapeaux</p>
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="white-text">&times;</span>
@@ -920,10 +984,10 @@
 
                 <!--Footer-->
                 <div class="modal-footer justify-content-center">
-                     <button id="sendMessageButton"  style="background-color: rgb(45,152,96);" class="btn btn-primary-modal" type="submit">Sauvegarder planification
+                     <button id="sendMessageButton"  style="background-color: rgb(45,152,96);" class="btn btn-primary-modal" type="submit">Vendre
                      <i class="fa fa-pencil-square-o ml-1"></i>
                      </button>
-                    <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">Retour</a>
+                    <button type="button" class="btn  waves-effect" style="border:1px solid rgb(45,152,96);" data-dismiss="modal">Retour</button>
                 </div>
                </form>
             </div>
@@ -964,8 +1028,9 @@
                             <button type="submit" class="btn btn-primary-modal">Empruntez 200 de la banque
                                 <i class="fa fa-bank ml-1"></i>
                             </button>
+                        
+                        <button type="" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</button>
                         </form>
-                        <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -1044,7 +1109,7 @@
                                     <div class="card border-info mb-3">
                                       <div class="card-header text-center">Détaillant</div>
                                      <div class="card-body text-info">
-                                         <p>Vendre x chapeaux a y pieces </p>
+                                         <p>Vendre {{ Session::get('D.nb') }} chapeaux a {{ Session::get('D.prix') }} pieces </p>
                                     </div>
                                   </div>
                                     
@@ -1311,8 +1376,9 @@
                         <button type="submit" class="btn btn-primary-modal">Retrirez salaire des employés
                             <i class="fa fa-money ml-1"></i>
                         </button>
+                        
+                        <button type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">Retour</button>
                         </form>
-                        <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Retour</a>
                     </div>
                 </div>
                 <!--/.Content-->
@@ -1337,6 +1403,7 @@
                         </button>
                     </div>
 
+
                     <!--Body-->
                     <div class="modal-body">
                         <div class="text-center">
@@ -1352,7 +1419,15 @@
                                         <div class="col-md-4"></div>
                                         <div class="col-md-4">
                                               <div class="form-group">
-                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez" required data-validation-required-message="Please enter your name.">
+                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez fabricants 1" required data-validation-required-message="Please enter your name.">
+                                                <p class="help-block text-danger"></p>
+                                              </div>
+                                              <div class="form-group">
+                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez fabricants 2" required data-validation-required-message="Please enter your name.">
+                                                <p class="help-block text-danger"></p>
+                                              </div>
+                                              <div class="form-group">
+                                                <input class="form-control" id="name" type="text" placeholder="Prix a économisez Détaillant" required data-validation-required-message="Please enter your name.">
                                                 <p class="help-block text-danger"></p>
                                               </div>
                                               
@@ -1471,7 +1546,7 @@
                        $('#card_det').remove();
                        $('sandwish').remove();
                          
-                        var next_cards='<div class="col-md-2"></div><div class="col-md-4"><div class="card border-info mb-3" ><div class="card-header text-center">Fabricant 1</div><div class="card-body text-info"><p>Encaissez (ici val) pièces</p> </div></div></div><div class="col-md-4"><div class="card border-info mb-3"><div class="card-header text-center">Fabricant 2</div><div class="card-body text-info"><p>Encaissez (ici val) pièces</p></div></div></div>';
+                        var next_cards='<div class="col-md-2"></div><div class="col-md-4"><div class="card border-info mb-3" ><div class="card-header text-center">Fabricant 1</div><div class="card-body text-info"><p>Encaissez {{ Session::get('credit.f1') }} pièces</p> </div></div></div><div class="col-md-4"><div class="card border-info mb-3"><div class="card-header text-center">Fabricant 2</div><div class="card-body text-info"><p>Encaissez {{ Session::get('credit.f2') }} pièces</p></div></div></div>';
                         var next_btn = '<a type="button" class="btn btn-primary-modal">Encaissement d\'argents<i class="fa fa-bank ml-1"></i></a>';
 
                         $('#next_cards').html(next_cards);
