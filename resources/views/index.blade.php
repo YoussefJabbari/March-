@@ -1672,8 +1672,8 @@
                                 <div class="card-body text-info">
                                     
 
-                                    <p>Total des ventes: 10 Unités</p>
-                                    <p>Total des ventes: 850 pièces</p>
+                                    <p>Total des ventes: {{ Session::get('F1.totalU') }} Unités</p>
+                                    <p>Total des ventes: {{ Session::get('F1.totalA') }} pièces</p>
 
                                 </div>
                             </div>
@@ -1686,8 +1686,8 @@
                                 <div class="card-header text-center">Fabricant 2</div>
                                 <div class="card-body text-info">
 
-                                    <p>Total des ventes: 12 Unités</p>
-                                    <p>Total des ventes: 1000 pièces</p>
+                                    <p>Total des ventes: {{ Session::get('F2.totalU') }} Unités</p>
+                                    <p>Total des ventes: {{ Session::get('F2.totalA') }} pièces</p>
                                 </div>
                             </div>
 
